@@ -12,21 +12,30 @@ class App extends React.Component {
       songs: [],
       year: 2000
     };
+
+    this.handleChange = this.handleChange.bind(this);
   }
-  componentDidMount() {
-    axios.get('/api/wiki', this.state.year)
+
+  getData() {
+    axios.get('/api/wiki', {
+      params: { year: this.state.year }
+    })
       .then(res => {
         this.setState({ songs: res.data }, () => console.log(this.state));
       });
   }
 
+  componentDidMount() {
+    this.getData();
+  }
+
   handleSubmit(e) {
     e.preventDefault();
-    // this.setState({ year: e.target.value });
   }
 
   handleChange(e) {
-    console.log(e.target.value);
+    this.setState({ year: e.target.value }, () => this.getData());
+
   }
 
   render() {
