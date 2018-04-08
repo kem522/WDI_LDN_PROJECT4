@@ -1,9 +1,8 @@
 const rp = require('request-promise');
 
-function article(req,res,next){
-  const year = req.query.year;
+function getSingleYear(year) {
   const endpoint ='https://en.wikipedia.org/wiki';
-  rp({
+  return rp({
     url: `${endpoint}/Billboard_Year-End_Hot_100_singles_of_${year}`,
     method: 'GET'
   })
@@ -21,13 +20,18 @@ function article(req,res,next){
         })
         // map over the array of tds and creates objects of the contents of the a tags
         .map(td => {
-
           const song = td[0].match(/<a .*>/) ? td[0].match(/<a .*>(.*)<\/a>/)[1] : td[0].match(/<td>(.*)<\/td>/)[1];
           const artist = td[1].match(/<a .*>/) ? td[1].match(/<a .*>(.*)<\/a>/)[1] : td[1].match(/<td>(.*)<\/td>/)[1];
-
           return { song, artist };
         });
-    })
+    });
+}
+
+function article(req,res,next){
+  const promises = req.query.years.map(year => getSingleYear(year));
+  Promise.all(promises)
+  // map over req.query.years to create an array of promises with getSingleYear...
+  // use Promise.all to resolve all the promises
     .then(data => res.json(data))
     .catch(next);
 }

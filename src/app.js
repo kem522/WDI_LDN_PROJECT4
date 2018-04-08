@@ -1,59 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
+// import axios from 'axios';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+// import _ from 'lodash';
 
+import Navbar from './components/common/Navbar';
+import Home from './components/Home';
+import Index from './components/songs/Index';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 // import Youtube from './components/Youtube';
+import NotFound from './components/common/NotFound';
+
+import 'bulma';
 
 class App extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      songs: [],
-      year: 2000
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  getData() {
-    axios.get('/api/wiki', {
-      params: { year: this.state.year }
-    })
-      .then(res => {
-        this.setState({ songs: res.data }, () => console.log(this.state));
-      });
-  }
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-  }
-
-  handleChange(e) {
-    this.setState({ year: e.target.value }, () => this.getData());
-
-  }
 
   render() {
     return (
-      <section>
-        <h1>WDI32 Project 4</h1>
-        <form onSubmit={this.handleSubmit}>
-          <select id="year" onChange={this.handleChange}>
-            <option>2001</option>
-            <option>1980</option>
-            <option>2015</option>
-          </select>
-          <button>Submit</button>
-        </form>
-        <ul>
-          {this.state.songs.map((song,i) => <li key={i}>{song.song}</li>)}
-        </ul>
-      </section>
+      <BrowserRouter>
+        <section>
+          <Navbar />
+          <main className="container">
+            <Switch>
+              <Route path="/register" component={Register} />
+              <Route path="/login" component={Login} />
+              <Route path="/songs" component={Index} />
+              <Route path="/" component={Home} />
+              <Route component={NotFound} />
+            </Switch>
+          </main>
+        </section>
+      </BrowserRouter>
     );
   }
 }

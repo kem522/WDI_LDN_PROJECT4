@@ -2,10 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 class Youtube extends React.Component {
-  constructor(){
-    super();
-    this.state = {};
-  }
+  state = {};
 
   componentDidMount() {
     axios.get('/api/youtube')
