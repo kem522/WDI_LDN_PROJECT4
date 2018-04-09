@@ -3,10 +3,12 @@ import axios from 'axios';
 import _ from 'lodash';
 import Auth from '../../lib/Auth';
 
-class Index extends React.Component {
+class NewRoute extends React.Component {
     state = {
       songs: [],
-      chosenSongs: []
+      chosenSongs: [],
+      public: true,
+      owner: Auth.getPayload().sub
     }
 
   getData = () => {
@@ -26,7 +28,6 @@ class Index extends React.Component {
       const index = years.findIndex(num => num >= currentYear);
       years = years.slice(0,index);
     }
-
     this.setState({ years: years }, () => this.getData());
   }
 
@@ -63,10 +64,14 @@ class Index extends React.Component {
 
   handleCheck = (e) => {
     let updatedChosenSongs = [];
-    if (!this.state.chosenSongs.includes(e.target.value)) {
-      updatedChosenSongs = this.state.chosenSongs.concat(e.target.value);
+    const song = {
+      artist: e.target.name,
+      title: e.target.value
+    };
+    if (this.state.chosenSongs.findIndex(x => x.title === song.title) === -1) {
+      updatedChosenSongs = this.state.chosenSongs.concat(song);
     } else {
-      const index = this.state.chosenSongs.indexOf(e.target.value);
+      const index = this.state.chosenSongs.findIndex(x => x.title === song.title);
       updatedChosenSongs = [ ...this.state.chosenSongs.slice(0, index), ...this.state.chosenSongs.slice(index + 1)];
     }
     this.setState({ chosenSongs: updatedChosenSongs });
@@ -74,7 +79,8 @@ class Index extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    
+    axios.post('/api/playlists', this.state)
+      .then(() => this.props.history.push('/playlists'));
   }
 
   render(){
@@ -102,11 +108,22 @@ class Index extends React.Component {
               <h2 className="subtitle">{this.state.years[i]}</h2>
               {songs.map((song, i) =>
                 <div key={i} className="field">
-                  <input onChange={this.handleCheck} type="checkbox" value={song.song + ' ' + song.artist}/>
-                  <p>{song.song} by {song.artist}</p>
+                  <input onChange={this.handleCheck} type="checkbox" name={song.artist} value={song.title}/>
+                  <p>{song.title} by {song.artist}</p>
                 </div> )}
             </div>
           )}
+
+          <label className="label" htmlFor="title">Name your playlist!</label>
+          <input onChange={(e) => this.setState({ title: e.target.value })} className="input" type="text" name="title" />
+
+
+          <label className="label" htmlFor="public">Description</label>
+          <textarea onChange={(e) => this.setState({ description: e.target.value })} className="textarea" name="description"></textarea>
+
+
+          <label className="label" htmlFor="public">Make it private?</label>
+          <input onChange={() => this.setState({ public: !this.state.public })} className="checkbox" type="checkbox" name="private" />
           <button>Submit</button>
         </form>
       </section>
@@ -114,4 +131,4 @@ class Index extends React.Component {
   }
 }
 
-export default Index;
+export default NewRoute;

@@ -17,7 +17,7 @@ class Login extends React.Component{
       .then(res => {
         Auth.setToken(res.data.token);
       })
-      .then(() => this.props.history.push('/songs'));
+      .then(() => this.props.history.push('/playlists'));
   }
 
   render(){
