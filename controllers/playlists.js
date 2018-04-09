@@ -37,7 +37,7 @@ function deleteRoute(req,res,next){
 function followersCreateRoute(req,res,next){
   Playlist.findById(req.params.id)
     .then(playlist => {
-      playlist.followers = playlist.followers.concat(req.body);
+      playlist.followers = playlist.followers.concat(req.body.params.user);
       return playlist.save();
     })
     .then(playlist => res.json(playlist))

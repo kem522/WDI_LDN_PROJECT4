@@ -33,7 +33,8 @@ class ShowRoute extends React.Component {
 
   handleClick = () => {
     axios.post(`/api/playlists/${this.props.match.params.id}/followers`, {
-      headers: { Authorization: `Bearer ${Auth.getToken()}` }
+      headers: { Authorization: `Bearer ${Auth.getToken()}` },
+      params: { user: Auth.getPayload().sub }
     });
   }
 

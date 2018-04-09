@@ -32,7 +32,7 @@ router.route('/playlists/:id')
   .put(playlists.update)
   .delete(playlists.delete);
 
-router.route('playlists/:id/followers')
+router.route('/playlists/:id/followers')
   .post(playlists.followersCreate);
 
 router.route('/*')

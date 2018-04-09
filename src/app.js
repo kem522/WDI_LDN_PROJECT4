@@ -12,6 +12,9 @@ import IndexRoute from './components/playlists/IndexRoute';
 import ShowRoute from './components/playlists/ShowRoute';
 import NewRoute from './components/playlists/NewRoute';
 
+//User components
+import Profile from './components//users/ShowRoute';
+
 //Auth components
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
@@ -29,6 +32,7 @@ class App extends React.Component {
             <Switch>
               <Route path="/register" component={Register} />
               <Route path="/login" component={Login} />
+              <Route path="/profile" component={Profile} />
               <Route path="/playlists/new" component={NewRoute} />
               <Route path="/playlists/:id" component={ShowRoute} />
               <Route path="/playlists" component={IndexRoute} />

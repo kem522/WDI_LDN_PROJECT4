@@ -8,6 +8,8 @@ function indexRoute(req,res,next){
 
 function showRoute(req, res, next) {
   User.findById(req.params.id)
+    .populate('playlists')
+    .populate('followedPlaylists')
     .then(user => res.json(user))
     .catch(next);
 }
