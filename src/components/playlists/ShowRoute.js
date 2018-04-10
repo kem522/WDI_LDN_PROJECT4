@@ -20,7 +20,7 @@ class ShowRoute extends React.Component {
         axios.get('/api/youtube',  {
           params: { songs: this.state.playlist.chosenSongs }
         })
-          .then(res => this.setState({ videoIds: res.data }, () => console.log(this.state)));
+          .then(res => this.setState({ videoIds: res.data }));
       }));
   }
 
@@ -38,6 +38,17 @@ class ShowRoute extends React.Component {
     });
   }
 
+  handleYoutube = () => {
+    axios.post('/api/youtubeplaylists', {
+      snippet: {
+        title: 'New playlist',
+        description: 'Sample playlist for Data API'
+      },
+      headers: { Authorization: `Bearer ${Auth.getToken()}`}
+    })
+      .then(res => console.log(res));
+  }
+
   render() {
     return (
       this.state.playlist ? (
@@ -45,6 +56,7 @@ class ShowRoute extends React.Component {
           <h1 className="title">{this.state.playlist.title}</h1>
           <h2 className="subtitle">{this.state.playlist.owner.username}</h2>
           <p>{this.state.playlist.description}</p>
+          <button onClick={this.handleYoutube}>Youtube</button>
           {!this.state.isOwner && <button onClick={this.handleClick} className="button">Follow</button>}
 
           <ul>

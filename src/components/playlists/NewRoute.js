@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 import Auth from '../../lib/Auth';
+import Flash from '../../lib/Flash';
 
 class NewRoute extends React.Component {
     state = {
@@ -28,16 +29,24 @@ class NewRoute extends React.Component {
       const index = years.findIndex(num => num >= currentYear);
       years = years.slice(0,index);
     }
-    this.setState({ years: years }, () => this.getData());
+    this.setState({ years: years }, this.getData);
   }
 
   componentDidMount() {
     const id = Auth.getPayload().sub;
     axios.get(`/api/users/${id}`)
-      .then(user => this.setState({ birthday: user.data.birthday }));
+      .then(user => {
+        if (user.data.birthday.length === 0) {
+          Flash.setMessage('danger', 'Please add a birthday to your profile to create a playlist');
+          this.props.history.push('/profile');
+        } else {
+          this.setState({ birthday: user.data.birthday });
+        }
+      });
   }
 
-  handleChange = (e) => {
+  handleClick = (e) => {
+    console.log(e.target.value);
     let years = [];
     const birthYear = parseInt(this.state.birthday[0],10);
     switch(e.target.value){
@@ -83,25 +92,23 @@ class NewRoute extends React.Component {
       .then(() => this.props.history.push('/playlists'));
   }
 
+  radioStyles = {
+    display: 'inline'
+  }
+
   render(){
     return(
       <section>
-        <form>
-          <label className="label" htmlFor="senior">Secondary School</label>
-          <input onChange={this.handleChange} className="radio" type="radio" name="era" value="senior" />
+        <div>
+          <button className="button" onClick={this.handleClick} type="radio" name="era" value="senior">Secondary School</button>
+          <button className="button" onClick={this.handleClick} type="radio" name="era" value="university">University</button>
+        </div>
+        <div>
+          <button className="button" onClick={this.handleClick} type="radio" name="era" value="20s">20s</button>
+          <button className="button" onClick={this.handleClick} type="radio" name="era" value="30s">30s</button>
+          <button className="button" onClick={this.handleClick} type="radio" name="era" value="40s">40s</button>
+        </div>
 
-          <label className="label" htmlFor="university">University</label>
-          <input onChange={this.handleChange} className="radio" type="radio" name="era" value="university" />
-
-          <label className="label" htmlFor="20s">20s</label>
-          <input onChange={this.handleChange} className="radio" type="radio" name="era" value="20s" />
-
-          <label className="label" htmlFor="30s">30s</label>
-          <input onChange={this.handleChange} className="radio" type="radio" name="era" value="30s" />
-
-          <label className="label" htmlFor="40s">40s</label>
-          <input onChange={this.handleChange} className="radio" type="radio" name="era" value="40s" />
-        </form>
         <form onSubmit={this.handleSubmit}>
           {this.state.songs.map((songs, i) =>
             <div key={i}>
@@ -124,7 +131,7 @@ class NewRoute extends React.Component {
 
           <label className="label" htmlFor="public">Make it private?</label>
           <input onChange={() => this.setState({ public: !this.state.public })} className="checkbox" type="checkbox" name="private" />
-          <button>Submit</button>
+          <button className="button btn-halo">Submit</button>
         </form>
       </section>
     );

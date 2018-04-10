@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
+import Search from './Search';
 
 class IndexRoute extends React.Component {
   state = {
@@ -17,25 +18,24 @@ class IndexRoute extends React.Component {
   }
 
   handleChange = (e) => {
-    this.setState({ search: e.target.value }, () => console.log(this.state));
+    this.setState({ search: e.target.value });
   }
 
   filterPlaylists = () => {
-    //make a regex
     const regex = new RegExp(this.state.search, 'i');
-    //use _.filter to filter the bangers
-    const filtered = _.filter(this.state.playlists, (playlist) => regex.test(playlist.title));
+    const ordered = _.orderBy(this.state.playlists, ['followers.length'], [this.state.sort]);
+    const filtered = _.filter(ordered, (playlist) => regex.test(playlist.title) || playlist.years.some(year => regex.test(parseInt(year,10))));
     return filtered;
+  }
+
+  handleSort = (e) => {
+    this.setState({ sort: e.target.value });
   }
 
   render() {
     return(
       <div className="container">
-        <form>
-          <div className="field">
-            <input onChange={this.handleChange} className="input" type="text" name="search" placeholder="Search "/>
-          </div>
-        </form>
+        <Search handleChange={this.handleChange} handleSort={this.handleSort} />
         <ul className="columns is-multiline">
           {this.filterPlaylists().map((playlist, i) =>
             <li key={i} className="column is-one-third">
@@ -43,7 +43,9 @@ class IndexRoute extends React.Component {
                 <div className="card">
                   <div className="card-content">
                     <h3 className="title is-4">{playlist.title}</h3>
-                    {/* <h4 className="subtitle">{.artist}</h4> */}
+                    <h4 className="subtitle">{playlist.owner.username}</h4>
+                    { playlist.followers.length === 1 && <h4 className="subtitle">{playlist.followers.length} follower</h4>}
+                    { playlist.followers.length > 1 && <h4 className="subtitle">{playlist.followers.length} followers</h4>}
                   </div>
                 </div>
               </Link>

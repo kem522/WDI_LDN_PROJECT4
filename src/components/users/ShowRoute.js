@@ -1,26 +1,31 @@
 import React from 'react';
 import axios from 'axios';
 import Auth from '../../lib/Auth';
+import { Link } from 'react-router-dom';
 
 class Profile extends React.Component{
   state = {
-    user: {}
+    user: {
+      playlists: [],
+      followedPlaylists: []
+    }
   };
 
   componentDidMount(){
     axios.get(`/api/users/${Auth.getPayload().sub}`)
-      .then(res => this.setState({ user: res.data }, () => console.log(this.state)));
+      .then(res => this.setState({ user: res.data }));
   }
 
   render(){
     return(
       <section>
         <h1>{this.state.user.username}</h1>
-        {/* <ul>
+        <Link className="button is-primary" to={`/users/${this.state.user._id}/edit`}>Edit</Link>
+        <ul>
           {this.state.user.playlists.map((playlist, i) =>
-            <li key={i}>{playlist.title}</li>
+            <Link to={`/playlists/${playlist._id}`} key={i}>{playlist.title}</Link>
           )}
-        </ul> */}
+        </ul>
       </section>
     );
   }

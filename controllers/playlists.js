@@ -2,6 +2,7 @@ const Playlist = require('../models/playlist');
 
 function indexRoute(req,res,next){
   Playlist.find()
+    .populate('owner')
     .then(playlists => res.json(playlists))
     .catch(next);
 }

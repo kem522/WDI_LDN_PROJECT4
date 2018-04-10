@@ -26,7 +26,24 @@ function videos(req,res,next){
     })
     .catch(next);
 }
+//
+function playlists(req,res,next){
+  return rp({
+    method: 'POST',
+    url: 'https://www.googleapis.com/youtube/v3/playlists?part=snippet&mine=true',
+    qs: {
+      access_token: req.currentUser.token
+    },
+    json: true
+  })
+    .then(data => {
+      console.log(data);
+      res.json(data);
+    })
+    .catch(next);
+}
 
 module.exports = {
-  videos
+  videos,
+  playlists
 };

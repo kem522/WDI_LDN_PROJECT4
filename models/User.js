@@ -5,7 +5,10 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   birthday: [ { type: String } ],
-  password: { type: String, required: true }
+  password: { type: String },
+  googleId: { type: String },
+  image: { type: String },
+  token: { type: String }
 });
 
 userSchema
@@ -29,6 +32,9 @@ userSchema
   });
 
 userSchema.pre('validate', function checkPasswords(next) {
+  if(!this.password && !this.googleId){
+    this.invalidate('password', 'password is required');
+  }
   if(this.isModified('password') && this._passwordConfirmation !== this.password) {
     this.invalidate('passwordConfirmation', 'passwords do not match');
   }

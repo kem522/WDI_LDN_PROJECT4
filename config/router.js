@@ -4,14 +4,18 @@ const youtube = require('../controllers/youtube');
 const auth = require('../controllers/auth');
 const users = require('../controllers/users');
 const playlists = require('../controllers/playlists');
+const oauth = require('../controllers/oauth');
+const secureRoute = require('../lib/secureRoute');
 
 //API routes
 router.get('/wiki', wiki.articles);
 router.get('/youtube', youtube.videos);
+router.post('/youtubeplaylists', secureRoute, youtube.playlists);
 
 //Auth routes
 router.post('/register', auth.register);
 router.post('/login', auth.login);
+router.post('/google', oauth.google);
 
 //Users routes
 router.route('/users')

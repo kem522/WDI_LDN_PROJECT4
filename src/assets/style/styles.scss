@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+html, body {
+  background: linear-gradient(#f2817d, #f7d14f);
+  height: 100vh;
+  width: 100vw;
+  font-family: 'Open Sans', sans-serif;
+  color: white;
+  overflow:auto;
+}
+
+.hero {
+  .title {
+    font-size: 48px;
+  }
+}
+
+.navbar {
+  background-color:rgba(0,0,0,0.5);
+  a {
+    color: white;
+    &:hover {
+      background-color: rgba(0,0,0,0);
+      color: orange;
+    }
+  }
+}
+
+.navbar-menu {
+  background-color: rgba(0,0,0,0);
+}
+
+.title, .subtitle {
+  font-weight: bolder;
+  color:white;
+}
+
+button.button {
+  text-transform: uppercase;
+  color:white;
+  white-space: normal;
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: 700;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: transparent;
+  border: 3px solid white;
+  padding: 6px 12px;
+  font-size: 16px;
+  line-height: 5px;
+  border-radius: 500px;
+  padding: 18px 48px;
+  letter-spacing: 2px;
+  min-width: 160px;
+  &:hover {
+    background-color:white;
+    border-color:white;
+  }
+}
+
+input {
+  outline: none;
+}
+
+.flexy {
+  display:flex;
+  justify-content: space-around;
+}
