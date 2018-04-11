@@ -2,6 +2,8 @@
 @import "./components/common/forms.scss";
 @import "./components/common/navbar.scss";
 @import "./components/pages/index.scss";
+@import "./components/pages/new.scss";
+@import "./components/variables/colors.scss";
 // Small tablets and large smartphones (landscape view)
 $screen-sm-min: 576px;
 // Small tablets (portrait view)
@@ -12,7 +14,6 @@ $screen-lg-min: 992px;
 $screen-xl-min: 1200px;
 //Sitewide Styles
 html, body {
-  // background: linear-gradient(#f2817d, #f7d14f);
   background-color: black;
   height: 100vh;
   width: 100vw;
@@ -21,7 +22,9 @@ html, body {
   overflow:auto;
 }
 
-
+.container {
+  max-width: 98%;
+}
 .neon {
   font-family: 'Nixie One', cursive;
   color: #FB4264;

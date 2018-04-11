@@ -91,7 +91,9 @@ class NewRoute extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('/api/playlists', this.state)
+    axios.post('/api/playlists', this.state, {
+      headers: { Authorization: `Bearer ${Auth.getToken()}`}
+    })
       .then(() => this.props.history.push('/playlists'))
       .catch(err => this.setState({ errors: err.response.data.errors }));
   }
@@ -123,7 +125,7 @@ class NewRoute extends React.Component {
               <h2 className="subtitle">{this.state.years[i]}</h2>
               <div className="overflow flexy">
                 {songs.map((song, i) =>
-                  <div key={i} className="field song">
+                  <div key={i} className="field song card">
                     <input className="regular-checkbox" onChange={this.handleCheck} type="checkbox" name={song.artist} value={song.title}/>
                     <p>{song.title} by {song.artist}</p>
                   </div> )}

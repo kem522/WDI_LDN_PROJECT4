@@ -29,12 +29,12 @@ router.route('/users/:id')
 //Playlists routes
 router.route('/playlists')
   .get(playlists.index)
-  .post(playlists.create);
+  .post(secureRoute, playlists.create);
 
 router.route('/playlists/:id')
   .get(playlists.show)
   .put(playlists.update)
-  .delete(playlists.delete);
+  .delete(secureRoute, playlists.delete);
 
 router.route('/playlists/:id/followers')
   .post(playlists.followersCreate);

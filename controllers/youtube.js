@@ -1,4 +1,5 @@
 const rp = require('request-promise');
+const Promise = require('bluebird');
 
 function getSingleVideo(song){
   const searchTerm = `${song.artist.replace(/\s+/g, '')}${song.title.replace(/\s+/g, '')}`;
@@ -26,9 +27,23 @@ function videos(req,res,next){
     .catch(next);
 }
 //
+
 function playlists(req,res,next){
   console.log(req.body);
   console.log('creating playlist');
+  let currentVideoIndex = 0;
+
+  function insertVideosRecursive(data, token) {
+    return new Promise(resolve => {
+      if(currentVideoIndex === req.body.videoIds.length) return resolve();
+      return addVideo(req.body.videoIds[currentVideoIndex], data, token)
+        .then(() => {
+          currentVideoIndex++;
+          return insertVideosRecursive(data, token);
+        });
+    });
+  }
+
   return rp({
     method: 'POST',
     url: 'https://www.googleapis.com/youtube/v3/playlists',
@@ -41,14 +56,20 @@ function playlists(req,res,next){
     json: true
   })
     .then(data => {
-      const promises = req.body.videoIds.map(video => addVideo(video, data, req.currentUser.token));
-      Promise.all(promises)
-        .then(data => {
-          console.log(data);
-          res.json(data);
-        })
-        .catch(next);
-    });
+      res.json(data);
+      return insertVideosRecursive(data, req.currentUser.token);
+      //
+      //
+      // const promises = req.body.videoIds.map(video => addVideo(video, data, req.currentUser.token));
+      // console.log(promises.length);
+      // Promise.all(promises)
+      //   .then(data => {
+      //     console.log(data);
+      //     res.json(data);
+      //   })
+      //
+    })
+    .catch(next);
 }
 
 function addVideo(video, data, token){

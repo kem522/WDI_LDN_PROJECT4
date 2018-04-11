@@ -1,6 +1,9 @@
+@import "./components/variables/colors.scss";
+
 form{
   button.button, a.button {
     margin: 10px auto;
+    outline: $neon-red;
     display:block;
     text-transform: uppercase;
     color:white;
@@ -26,6 +29,28 @@ form{
    a.button {
      max-width:400px;
    }
+}
+
+button.button.is-focused, button.button:focus {
+  border-color: $neon-red;
+  box-shadow: 0 0 10px $neon-red;
+}
+
+.select {
+  margin: 10px;
+  border-color: $neon-red;
+  &:after {
+    border-color: $neon-red;
+  }
+  select {
+    border-color: $neon-red;
+    border-radius: 3px;
+    box-shadow: 0 0 20px $neon-red;
+    &:focus {
+      border-color: $neon-red;
+      box-shadow: 0 0 20px $neon-red;
+    }
+  }
 }
 
 input {
