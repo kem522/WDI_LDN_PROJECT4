@@ -4,38 +4,41 @@ const Form = ({handleSubmit, handleChange, data}) => {
   return(
     <form onSubmit={handleSubmit}>
       <div className="field">
-        <label htmlFor="username">Username</label>
-        <input className="input"
-          placeholder="Username"
-          name="username"
-          onChange={handleChange}
-          value={data.username}
-        />
-        {data.errors.username && <small>{data.errors.username}</small>}
+        <label htmlFor="username">
+          <input
+            name="username"
+            onChange={handleChange}
+            value={data.username}
+          />
+          <div className="input-text">Username</div>
+          {data.errors.username && <small>{data.errors.username}</small>}
+        </label>
       </div>
       <div className="field">
-        <label htmlFor="email">Email</label>
-        <input
-          className="input"
-          placeholder="Email"
-          name="email"
-          onChange={handleChange}
-          value={data.email}
-        />
-        {data.errors.email && <small>{data.errors.email}</small>}
+        <label htmlFor="email">
+          <input
+            name="email"
+            onChange={handleChange}
+            value={data.email}
+          />
+          <div className="input-text">Email</div>
+          {data.errors.email && <small>{data.errors.email}</small>}
+        </label>
       </div>
 
       <div className="field">
-        <label className="label">Birthday</label>
-        <input
-          onChange={handleChange}
-          name="birthday"
-          className="input"
-          type="date"
-        />
-        {data.errors.birthday && <small>{data.errors.birthday}</small>}
+        <label className="label">
+          <input
+            onChange={handleChange}
+            name="birthday"
+            type="date"
+          />
+          <div className="input-text">Birthday</div>
+          <small>We use your birthday to calculate the eras when you create a playlist! </small>
+          {data.errors.birthday && <small>{data.errors.birthday}</small>}
+        </label>
       </div>
-      <button className="button is-primary">Submit</button>
+      <button className="button">Submit</button>
     </form>
   );
 };

@@ -1,18 +1,19 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Nixie+One|Open+Sans');
+@import "./components/common/forms.scss";
+@import "./components/common/navbar.scss";
+@import "./components/pages/index.scss";
 // Small tablets and large smartphones (landscape view)
 $screen-sm-min: 576px;
-
 // Small tablets (portrait view)
 $screen-md-min: 768px;
-
 // Tablets and small desktops
 $screen-lg-min: 992px;
-
 // Large tablets and desktops
 $screen-xl-min: 1200px;
 //Sitewide Styles
 html, body {
-  background: linear-gradient(#f2817d, #f7d14f);
+  // background: linear-gradient(#f2817d, #f7d14f);
+  background-color: black;
   height: 100vh;
   width: 100vw;
   font-family: 'Open Sans', sans-serif;
@@ -20,33 +21,31 @@ html, body {
   overflow:auto;
 }
 
-button.button {
-  text-transform: uppercase;
-  color:white;
-  white-space: normal;
-  display: inline-block;
-  margin-bottom: 0;
-  font-weight: 700;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  background-color: transparent;
-  border: 3px solid white;
-  padding: 6px 12px;
-  font-size: 16px;
-  line-height: 5px;
-  border-radius: 500px;
-  padding: 18px 48px;
-  letter-spacing: 2px;
-  min-width: 160px;
-  &:hover {
-    background-color:white;
-    border-color:white;
-  }
+
+.neon {
+  font-family: 'Nixie One', cursive;
+  color: #FB4264;
+  font-size: 48px;
+  line-height: 48px;
+  text-shadow: 0 0 3vw #F40A35;
 }
 
-input {
-  outline: none;
+.neon {
+  animation: neon 1s ease infinite;
+  -moz-animation: neon 1s ease infinite;
+  -webkit-animation: neon 1s ease infinite;
+}
+
+@keyframes neon {
+  0%,
+  100% {
+    text-shadow: 0 0 1vw #FA1C16, 0 0 3vw #FA1C16, 0 0 10vw #FA1C16, 0 0 10vw #FA1C16, 0 0 .4vw #FED128, .5vw .5vw .1vw #806914;
+    color: #FED128;
+  }
+  50% {
+    text-shadow: 0 0 .5vw #800E0B, 0 0 1.5vw #800E0B, 0 0 5vw #800E0B, 0 0 5vw #800E0B, 0 0 .2vw #800E0B, .5vw .5vw .1vw #40340A;
+    color: #806914;
+  }
 }
 
 .flexy {
@@ -69,23 +68,6 @@ hr {
   box-shadow: 0 0 10px 1px white;
 }
 
-//Navbar
-.navbar {
-  background-color:rgba(0,0,0,0.5);
-  a {
-    color: white;
-    &:hover {
-      background-color: rgba(0,0,0,0);
-      color: orange;
-    }
-  }
-}
-
-.navbar-menu {
-  background-color: rgba(0,0,0,0);
-}
-
-
 //HomePage
 .hero {
   .title {
@@ -98,41 +80,6 @@ hr {
   color:white;
 }
 
-//New Playlists
-.regular-checkbox {
-	-webkit-appearance: none;
-	background-color: #fafafa;
-	border: 1px solid #cacece;
-	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
-	padding: 9px;
-	border-radius: 3px;
-	display: inline-block;
-	position: relative;
-  &:active {
-	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
-  }
-  &:checked {
-	background-color: #e9ecee;
-	border: 1px solid #adb8c0;
-	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
-	color: #99a1a7;
-    &:active {
-	     box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
-    }
-    &:after {
-    	content: '\2714';
-    	font-size: 14px;
-    	position: absolute;
-    	top: 0px;
-    	left: 3px;
-    	color: #99a1a7;
-    }
-  }
-}
-
-.song {
-  width: 100px;
-}
 @media only screen and (max-width:$screen-md-min){
   .flexy{
     flex-direction: column;

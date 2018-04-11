@@ -26,25 +26,25 @@ class Login extends React.Component{
     return(
       <form onSubmit={this.handleSubmit}>
         <div className="field">
-          <label htmlFor="email">Email</label>
-          <input
-            className="input"
-            placeholder="Email"
-            name="email"
-            onChange={this.handleChange}
-          />
+          <label htmlFor="email">
+            <input
+              name="email"
+              onChange={this.handleChange}
+            />
+            <div className="input-text">Email</div>
+          </label>
         </div>
         <div className="field">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            className="input"
-            placeholder="Password"
-            name="password"
-            onChange={this.handleChange}
-          />
+          <label htmlFor="password">
+            <input
+              type="password"
+              name="password"
+              onChange={this.handleChange}
+            />
+            <div className="input-text">Password</div>
+          </label>
         </div>
-        <button>Submit</button>
+        <button className="button">Submit</button>
         <GoogleLogin />
       </form>
     );

@@ -1,0 +1,14 @@
+.navbar {
+  background-color:rgba(0,0,0,0.5);
+  a {
+    color: white;
+    &:hover {
+      background-color: rgba(0,0,0,0);
+      color: orange;
+    }
+  }
+}
+
+.navbar-menu {
+  background-color: rgba(0,0,0,0);
+}

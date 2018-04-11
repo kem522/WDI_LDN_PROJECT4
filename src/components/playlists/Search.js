@@ -4,9 +4,9 @@ const Search = ({handleSort, handleChange}) => {
   return(
     <form>
       <div className="field">
-        <input onChange={handleChange} className="input" type="text" name="search" placeholder="Search by playlist title or by year"/>
+        <input onChange={handleChange} className="wider" type="text" name="search" placeholder="Search by playlist title or by year"/>
       </div>
-      <div className="field">
+      <div className="select">
         <select onChange={handleSort} className="select" name="sort">
           <option value="">Sort by ...</option>
           <option value="desc">Most Popular</option>

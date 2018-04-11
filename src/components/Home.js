@@ -5,13 +5,13 @@ const Home = () => {
     <section className="hero is-large">
       <div className="hero-body">
         <div className="container">
-          <h1 className="title">
+          <h1 className="title neon">
             Nostalgify
           </h1>
           <h2 className="subtitle">
             Can't think of a better name right now.
           </h2>
-          <button className="button btn-halo">Click here to get started</button>
+          {/* <button className="button btn-halo">Click here to get started</button> */}
         </div>
       </div>
     </section>

@@ -1,0 +1,66 @@
+form{
+  button.button, a.button {
+    margin: 10px auto;
+    display:block;
+    text-transform: uppercase;
+    color:white;
+    white-space: normal;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: transparent;
+    border: 3px solid white;
+    padding: 6px 12px;
+    font-size: 16px;
+    line-height: 5px;
+    border-radius: 500px;
+    padding: 18px 48px;
+    letter-spacing: 2px;
+    min-width: 160px;
+    &:hover {
+      background-color:white;
+      border-color:white;
+    }
+  }
+   a.button {
+     max-width:400px;
+   }
+}
+
+input {
+  background-color: transparent;
+   border: 0;
+   border-bottom: 2px solid white;
+   color: white;
+   font-size: 36px;
+   letter-spacing: -1px;
+   outline: 0;
+   padding: 5px 20px;
+   text-align: center;
+   transition: all 0.3s;
+   width: 325px;
+   outline: none;
+   margin: 0 auto;
+   cursor: text;
+   &:focus {
+      max-width: 100%;
+      width: 400px;
+    }
+  &.wider {
+    width: 100%;
+  }
+}
+
+label {
+  display: block;
+  letter-spacing: 4px;
+  padding-top: 30px;
+  text-align: center;
+  .input-text {
+    color: white;
+    font-size: 20px;
+    line-height: 20px;
+    margin: 5px;
+  }
+}

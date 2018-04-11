@@ -34,7 +34,7 @@ class IndexRoute extends React.Component {
 
   render() {
     return(
-      <div className="container">
+      <div className="container" id="index">
         <Search handleChange={this.handleChange} handleSort={this.handleSort} />
         <ul className="columns is-multiline">
           {this.filterPlaylists().map((playlist, i) =>
