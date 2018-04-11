@@ -11,6 +11,7 @@ const Form = ({handleSubmit, handleChange, data}) => {
           onChange={handleChange}
           value={data.username}
         />
+        {data.errors.username && <small>{data.errors.username}</small>}
       </div>
       <div className="field">
         <label htmlFor="email">Email</label>
@@ -21,6 +22,7 @@ const Form = ({handleSubmit, handleChange, data}) => {
           onChange={handleChange}
           value={data.email}
         />
+        {data.errors.email && <small>{data.errors.email}</small>}
       </div>
 
       <div className="field">
@@ -31,6 +33,7 @@ const Form = ({handleSubmit, handleChange, data}) => {
           className="input"
           type="date"
         />
+        {data.errors.birthday && <small>{data.errors.birthday}</small>}
       </div>
       <button className="button is-primary">Submit</button>
     </form>

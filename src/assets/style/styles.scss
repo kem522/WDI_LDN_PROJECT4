@@ -1,5 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+// Small tablets and large smartphones (landscape view)
+$screen-sm-min: 576px;
 
+// Small tablets (portrait view)
+$screen-md-min: 768px;
+
+// Tablets and small desktops
+$screen-lg-min: 992px;
+
+// Large tablets and desktops
+$screen-xl-min: 1200px;
+//Sitewide Styles
 html, body {
   background: linear-gradient(#f2817d, #f7d14f);
   height: 100vh;
@@ -7,32 +18,6 @@ html, body {
   font-family: 'Open Sans', sans-serif;
   color: white;
   overflow:auto;
-}
-
-.hero {
-  .title {
-    font-size: 48px;
-  }
-}
-
-.navbar {
-  background-color:rgba(0,0,0,0.5);
-  a {
-    color: white;
-    &:hover {
-      background-color: rgba(0,0,0,0);
-      color: orange;
-    }
-  }
-}
-
-.navbar-menu {
-  background-color: rgba(0,0,0,0);
-}
-
-.title, .subtitle {
-  font-weight: bolder;
-  color:white;
 }
 
 button.button {
@@ -67,4 +52,89 @@ input {
 .flexy {
   display:flex;
   justify-content: space-around;
+  padding:20px;
+  &.column {
+    flex-direction: column;
+  }
+}
+
+.overflow {
+  overflow:scroll;
+  max-height: 500px;
+}
+
+hr {
+  border: 0;
+  height: 0;
+  box-shadow: 0 0 10px 1px white;
+}
+
+//Navbar
+.navbar {
+  background-color:rgba(0,0,0,0.5);
+  a {
+    color: white;
+    &:hover {
+      background-color: rgba(0,0,0,0);
+      color: orange;
+    }
+  }
+}
+
+.navbar-menu {
+  background-color: rgba(0,0,0,0);
+}
+
+
+//HomePage
+.hero {
+  .title {
+    font-size: 48px;
+  }
+}
+
+.title, .subtitle {
+  font-weight: bolder;
+  color:white;
+}
+
+//New Playlists
+.regular-checkbox {
+	-webkit-appearance: none;
+	background-color: #fafafa;
+	border: 1px solid #cacece;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+	padding: 9px;
+	border-radius: 3px;
+	display: inline-block;
+	position: relative;
+  &:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+  }
+  &:checked {
+	background-color: #e9ecee;
+	border: 1px solid #adb8c0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+	color: #99a1a7;
+    &:active {
+	     box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+    }
+    &:after {
+    	content: '\2714';
+    	font-size: 14px;
+    	position: absolute;
+    	top: 0px;
+    	left: 3px;
+    	color: #99a1a7;
+    }
+  }
+}
+
+.song {
+  width: 100px;
+}
+@media only screen and (max-width:$screen-md-min){
+  .flexy{
+    flex-direction: column;
+  }
 }

@@ -39,11 +39,15 @@ class ShowRoute extends React.Component {
   }
 
   handleYoutube = () => {
-    axios.post('/api/youtubeplaylists', {
+    const data = {
       snippet: {
-        title: 'New playlist',
-        description: 'Sample playlist for Data API'
+        title: this.state.playlist.title,
+        description: this.state.playlist.description
       },
+      videoIds: this.state.videoIds
+    };
+
+    axios.post('/api/youtubeplaylists', data, {
       headers: { Authorization: `Bearer ${Auth.getToken()}`}
     })
       .then(res => console.log(res));
@@ -63,7 +67,7 @@ class ShowRoute extends React.Component {
             {this.state.playlist.chosenSongs.map((song, i) =>
               <li key={i}>
                 {song.title} by {song.artist}
-                <Youtube id={this.state.videoIds[i]} />
+                <Youtube id={this.state.videoIds[i]} />{this.state.videoIds[i]}
               </li>
             )}
           </ul>

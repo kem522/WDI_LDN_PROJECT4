@@ -42,7 +42,6 @@ function google(req,res,next){
         });
     })
     .then(user => {
-      console.log(user);
       const token = jwt.sign({ sub: user._id }, secret, { expiresIn: '6h'});
       res.json({
         message: `Welcome back ${user.username}`,

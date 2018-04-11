@@ -9,7 +9,11 @@ class NewRoute extends React.Component {
       songs: [],
       chosenSongs: [],
       public: true,
-      owner: Auth.getPayload().sub
+      owner: Auth.getPayload().sub,
+      title: '',
+      description: '',
+      years: [],
+      errors: {}
     }
 
   getData = () => {
@@ -46,7 +50,6 @@ class NewRoute extends React.Component {
   }
 
   handleClick = (e) => {
-    console.log(e.target.value);
     let years = [];
     const birthYear = parseInt(this.state.birthday[0],10);
     switch(e.target.value){
@@ -89,48 +92,63 @@ class NewRoute extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     axios.post('/api/playlists', this.state)
-      .then(() => this.props.history.push('/playlists'));
+      .then(() => this.props.history.push('/playlists'))
+      .catch(err => this.setState({ errors: err.response.data.errors }));
   }
 
-  radioStyles = {
-    display: 'inline'
+  handleChange = (e) => {
+    const name = e.target.name;
+    let value = e.target.value;
+    const errors = { ...this.state.errors, [name]: '' };
+    if (name === 'public') value = !this.state.public;
+    this.setState({ [name]: value, errors });
   }
 
   render(){
     return(
       <section>
-        <div>
+        <div className="flexy">
           <button className="button" onClick={this.handleClick} type="radio" name="era" value="senior">Secondary School</button>
           <button className="button" onClick={this.handleClick} type="radio" name="era" value="university">University</button>
-        </div>
-        <div>
           <button className="button" onClick={this.handleClick} type="radio" name="era" value="20s">20s</button>
           <button className="button" onClick={this.handleClick} type="radio" name="era" value="30s">30s</button>
           <button className="button" onClick={this.handleClick} type="radio" name="era" value="40s">40s</button>
         </div>
 
+        <hr />
+        {this.state.years.length === 0 && <p>Select an era above to get some tunes!</p>}
         <form onSubmit={this.handleSubmit}>
           {this.state.songs.map((songs, i) =>
-            <div key={i}>
+            <div key={i}  className="gallery">
               <h2 className="subtitle">{this.state.years[i]}</h2>
-              {songs.map((song, i) =>
-                <div key={i} className="field">
-                  <input onChange={this.handleCheck} type="checkbox" name={song.artist} value={song.title}/>
-                  <p>{song.title} by {song.artist}</p>
-                </div> )}
+              <div className="overflow flexy">
+                {songs.map((song, i) =>
+                  <div key={i} className="field song">
+                    <input className="regular-checkbox" onChange={this.handleCheck} type="checkbox" name={song.artist} value={song.title}/>
+                    <p>{song.title} by {song.artist}</p>
+                  </div> )}
+              </div>
             </div>
           )}
 
-          <label className="label" htmlFor="title">Name your playlist!</label>
-          <input onChange={(e) => this.setState({ title: e.target.value })} className="input" type="text" name="title" />
+          <hr />
 
+          <div className="field">
+            <label className="label" htmlFor="title">Name your playlist!</label>
+            <input onChange={this.handleChange} className="input" type="text" name="title" />
+            {this.state.errors.title && <small>{this.state.errors.title}</small>}
+          </div>
 
-          <label className="label" htmlFor="public">Description</label>
-          <textarea onChange={(e) => this.setState({ description: e.target.value })} className="textarea" name="description"></textarea>
+          <div className="field">
+            <label className="label" htmlFor="description">Description</label>
+            <textarea onChange={this.handleChange} className="textarea" name="description"></textarea>
+          </div>
 
+          <div className="field">
+            <label className="label" htmlFor="public">Make it private?</label>
+            <input onChange={this.handleChange} className="checkbox" type="checkbox" name="private" />
+          </div>
 
-          <label className="label" htmlFor="public">Make it private?</label>
-          <input onChange={() => this.setState({ public: !this.state.public })} className="checkbox" type="checkbox" name="private" />
           <button className="button btn-halo">Submit</button>
         </form>
       </section>
