@@ -112,7 +112,7 @@ class NewRoute extends React.Component {
   handleRange = (e) => {
     if (e.target.name === 'start') this.setState({ start: e.target.value, disabled: false, years: [], chosenSongs: [] });
     if (e.target.name === 'end') {
-      const years =  _.range(this.state.start, e.target.value, 1);
+      const years =  _.range(this.state.start, parseInt(e.target.value, 10) + 1, 1);
       this.setYears(years);
     }
   }
@@ -129,18 +129,22 @@ class NewRoute extends React.Component {
         </div>
         <div className="centered">
           <p>or choose a range of years:</p>
-          <select className="select is-medium is-rounded" onChange={this.handleRange} name="start">
-            <option value="">Start ...</option>
-            {_.range(1950, this.state.currentYear, 1).map((year, i) =>
-              <option key={i} value={year}>{year}</option>
-            )}
-          </select>
-          <select onChange={this.handleRange} className="select is-medium is-rounded" name="end" disabled={this.state.disabled}>
-            <option value="">End ...</option>
-            {_.range(this.state.start, this.state.currentYear, 1).map((year, i) =>
-              <option key={i} value={year}>{year}</option>
-            )}
-          </select>
+          <div className="select is-medium is-rounded">
+            <select onChange={this.handleRange} name="start">
+              <option value="">Start ...</option>
+              {_.range(1950, this.state.currentYear, 1).map((year, i) =>
+                <option key={i} value={year}>{year}</option>
+              )}
+            </select>
+          </div>
+          <div className="select is-medium is-rounded">
+            <select onChange={this.handleRange} name="end" disabled={this.state.disabled}>
+              <option value="">End ...</option>
+              {_.range(parseInt(this.state.start, 10) + 1, this.state.currentYear, 1).map((year, i) =>
+                <option key={i} value={year}>{year}</option>
+              )}
+            </select>
+          </div>
         </div>
         <hr />
         {this.state.songs.length === 0 && <p className="centered">Choose an era above to get some songs!</p>}

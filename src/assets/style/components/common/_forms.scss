@@ -37,21 +37,20 @@ button.button.is-focused, button.button:focus {
 .select {
   margin: 10px;
   border-color: $neon-red;
+  border-color: $neon-red;
+  box-shadow: 0 0 20px $neon-red;
   &:after {
     border-color: $neon-red;
   }
-  select {
-    border-color: $neon-red;
-    box-shadow: 0 0 20px $neon-red;
-    &:focus {
+  &:focus {
       border-color: $neon-red;
       box-shadow: 0 0 20px $neon-red;
-      outline:none;
-    }
+      outline:none !important;
   }
   &.is-rounded {
-    border-radius: 500px;
-  }
+      border-radius: 500px;
+    }
+
 }
 
 .buttons {
