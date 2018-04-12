@@ -1,3 +1,5 @@
+@import "./components/variables/mediaQueries.scss";
+
 button.button, a.button {
   margin: 10px auto;
   display:block;
@@ -22,12 +24,62 @@ button.button, a.button {
     border-color:white;
   }
 }
- a.button {
+
+a.button {
    max-width:400px;
- }
+}
 
+.flexy.jukebox {
+  justify-content: flex-start;
+  & > first-child{
+    margin-left:0;
+  }
+}
 
+.wrapper {
+  perspective: 1000px;
+}
+
+.wrapper:hover .song {
+  transform: rotate(0)
+
+}
 
 .song {
-  width: 100px;
+  text-align: center;
+  transition: .3s;
+  width: 10em;
+  height: 10em;
+  border-radius: 3px;
+  padding: 5px;
+  margin: -20px;
+  transform: rotateY(40deg);
+  background-color:white;
+  border: 1px solid #363636;
+  box-shadow: -10px 0px 10px 1px #363636;
+  transition:
+      box-shadow 0.2s ease-out,
+      transform 0.2s ease-out;
+  input.regular-checkbox, p {
+    display: inline;
+  }
+  &.large {
+    height:auto;
+  }
+
+}
+
+.song p {
+  text-align: center;
+  display:inline;
+  margin: .5em 0;
+  font-weight: bold;
+  color: $neon-blue;
+}
+
+.song input iframe {
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  -webkit-filter: sepia(75%);
 }

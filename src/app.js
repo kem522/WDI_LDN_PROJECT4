@@ -10,6 +10,7 @@ import Navbar from './components/common/Navbar';
 import FlashMessages from './components/common/FlashMessages';
 import Home from './components/Home';
 import NotFound from './components/common/NotFound';
+import ProtectedRoute from './components/common/ProtectedRoute';
 
 //Playlist RESTFUL components
 import IndexRoute from './components/playlists/IndexRoute';
@@ -52,7 +53,7 @@ class App extends React.Component {
               <Route path="/login" component={Login} />
               <Route path="/profile" component={Profile} />
               <Route path="/users/:id/edit" component={EditProfile} />
-              <Route path="/playlists/new" component={NewRoute} />
+              <ProtectedRoute path="/playlists/new" component={NewRoute} />
               <Route path="/playlists/:id" component={ShowRoute} />
               <Route path="/playlists" component={IndexRoute} />
               <Route path="/" component={Home} />

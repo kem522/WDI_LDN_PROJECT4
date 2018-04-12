@@ -1,0 +1,18 @@
+@import "./components/variables/colors.scss";
+@import "./components/variables/mediaQueries.scss";
+
+.modal-content {
+  max-height: 360px;
+}
+
+.svg-inline--fa.fa-youtube{
+  color: $youtube-red;
+  line-height: 5px;
+}
+
+@media only screen and (max-width:$screen-md-min){
+  .largeBtn {
+    height: auto;
+    line-height: normal !important;
+  }
+}

@@ -24,7 +24,7 @@ class IndexRoute extends React.Component {
   filterPlaylists = () => {
     const regex = new RegExp(this.state.search, 'i');
     const ordered = _.orderBy(this.state.playlists, ['followers.length'], [this.state.sort]);
-    const filtered = _.filter(ordered, (playlist) => regex.test(playlist.title) || playlist.years.some(year => regex.test(parseInt(year,10))));
+    const filtered = _.filter(ordered, (playlist) => regex.test(playlist.title) || playlist.chosenSongs.some(song => regex.test(parseInt(song.year,10))));
     return filtered;
   }
 
@@ -46,6 +46,7 @@ class IndexRoute extends React.Component {
                     <h4 className="subtitle">{playlist.owner.username}</h4>
                     { playlist.followers.length === 1 && <h4 className="subtitle">{playlist.followers.length} follower</h4>}
                     { playlist.followers.length > 1 && <h4 className="subtitle">{playlist.followers.length} followers</h4>}
+                    {playlist.chosenSongs.map((song, i) => <li key={i}>{song.year}</li>)}
                   </div>
                 </div>
               </Link>

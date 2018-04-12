@@ -5,7 +5,10 @@ import Form from './Form';
 
 class EditRoute extends React.Component {
 
-  state = {}
+  state = {
+    username: '',
+    errors: {}
+  }
 
   handleChange = (e) => {
     const { name, value } = e.target;

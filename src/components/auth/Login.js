@@ -44,8 +44,10 @@ class Login extends React.Component{
             <div className="input-text">Password</div>
           </label>
         </div>
-        <button className="button">Submit</button>
-        <GoogleLogin />
+        <div className="buttons">
+          <button className="button">Submit</button>
+          <GoogleLogin />
+        </div>
       </form>
     );
   }

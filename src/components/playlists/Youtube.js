@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Youtube = ({id}) => {
+const Youtube = ({id, width, height}) => {
   return(
     <section>
-      {id && <iframe id="ytplayer" type="text/html" width="640" height="360" src={`https://www.youtube.com/embed/${id}?`} frameBorder="0"></iframe> }
+      {id && <iframe id="ytplayer" type="text/html" width={width} height={height} src={`https://www.youtube.com/embed/${id}?controls=0&showinfo=0&rel=0`} frameBorder="0"></iframe> }
     </section>
   );
 };

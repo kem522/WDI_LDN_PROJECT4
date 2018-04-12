@@ -20,9 +20,10 @@ function getSingleYear(year) {
         })
         // map over the array of tds and creates objects of the contents of the a tags
         .map(td => {
+          // console.log( td[0].match(/<a .*>(.*)<\/a>/)[1] + td[1].match(/<a .*>(.*)<\/a>/)[0]);
           const title = td[0].match(/<a .*>/) ? td[0].match(/<a .*>(.*)<\/a>/)[1] : td[0].match(/<td>(.*)<\/td>/)[1];
           const artist = td[1].match(/<a .*>/) ? td[1].match(/<a .*>(.*)<\/a>/)[1] : td[1].match(/<td>(.*)<\/td>/)[1];
-          return { title, artist };
+          return { title, artist, year };
         });
     });
 }

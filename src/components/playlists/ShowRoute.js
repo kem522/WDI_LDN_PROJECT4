@@ -9,7 +9,9 @@ class ShowRoute extends React.Component {
 
   state = {
     playlist: null,
-    videoIds: []
+    videoIds: [],
+    modalOpen: false,
+    currentVideo: ''
   };
 
   componentDidMount() {
@@ -53,28 +55,40 @@ class ShowRoute extends React.Component {
       .then(res => console.log(res));
   }
 
+
   render() {
+    if (this.state.playlist) console.log(this.state.playlist.chosenSongs);
     return (
       this.state.playlist ? (
         <div className="container">
-          <h1 className="title">{this.state.playlist.title}</h1>
+          {this.state.modalOpen && <div className="modal is-active">
+            <div className="modal-background"></div>
+            <div className="modal-content">
+              <Youtube width="640" height="360" id={this.state.currentVideo} />
+            </div>
+            <button className="modal-close is-large" onClick={() => this.setState({ modalOpen: false })}>x</button>
+          </div>
+          }
+          <h1 className="title"><u>{this.state.playlist.title}</u></h1>
           <h2 className="subtitle">{this.state.playlist.owner.username}</h2>
           <p>{this.state.playlist.description}</p>
-          <button onClick={this.handleYoutube}>Youtube</button>
+          <button className="button largeBtn" onClick={this.handleYoutube}><span className="ytRed"><i className="fab fa-youtube"></i></span> Make this a <span className="ytRed">YouTube</span> Playlist!</button>
           {!this.state.isOwner && <button onClick={this.handleClick} className="button">Follow</button>}
 
-          <ul>
+          <ul className="overflow flexy no-column jukebox">
             {this.state.playlist.chosenSongs.map((song, i) =>
-              <li key={i}>
-                {song.title} by {song.artist}
-                <Youtube id={this.state.videoIds[i]} />{this.state.videoIds[i]}
+              <li key={i} className="wrapper">
+                <div onClick={() => this.setState({ modalOpen: true, currentVideo: this.state.videoIds[i]})} className="song large" id={this.state.videoIds[i]}>
+                  <p>{song.title} by {song.artist}</p>
+                  <Youtube width="100%" height="100%" onClick={() => this.setState({ modalOpen: true })} id={this.state.videoIds[i]} />
+                </div>
               </li>
             )}
           </ul>
 
-          {this.state.isOwner && <Link className="button is-primary" to={`/playlists/${this.state.playlist._id}/edit`}>Edit</Link> }
+          {this.state.isOwner && <Link className="button" to={`/playlists/${this.state.playlist._id}/edit`}>Edit</Link> }
           {' '}
-          {this.state.isOwner && <button className="button is-danger" onClick={this.handleDelete}>Delete</button> }
+          {this.state.isOwner && <button className="button" onClick={this.handleDelete}>Delete</button> }
         </div>
       ) : (
         <div className="container">

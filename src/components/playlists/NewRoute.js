@@ -13,7 +13,8 @@ class NewRoute extends React.Component {
       title: '',
       description: '',
       years: [],
-      errors: {}
+      errors: {},
+      disabled: true
     }
 
   getData = () => {
@@ -24,19 +25,20 @@ class NewRoute extends React.Component {
   }
 
   setYears = (years) => {
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    if (years.every(year => year >= currentYear)) {
+    if (years.every(year => year >= this.state.currentYear)) {
       this.setState({ songs: [] });
       return null;
-    } else if (years.some(year => year >= currentYear)) {
-      const index = years.findIndex(num => num >= currentYear);
+    } else if (years.some(year => year >= this.state.currentYear)) {
+      const index = years.findIndex(num => num >= this.state.currentYear);
       years = years.slice(0,index);
     }
-    this.setState({ years: years }, this.getData);
+    this.setState({ years: years, chosenSongs: [] }, this.getData);
   }
 
   componentDidMount() {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    this.setState({ currentYear: currentYear });
     const id = Auth.getPayload().sub;
     axios.get(`/api/users/${id}`)
       .then(user => {
@@ -74,11 +76,12 @@ class NewRoute extends React.Component {
     this.setYears(years);
   }
 
-  handleCheck = (e) => {
+  handleCheck = (song) => {
     let updatedChosenSongs = [];
-    const song = {
-      artist: e.target.name,
-      title: e.target.value
+    song = {
+      artist: song.artist,
+      title: song.title,
+      year: song.year
     };
     if (this.state.chosenSongs.findIndex(x => x.title === song.title) === -1) {
       updatedChosenSongs = this.state.chosenSongs.concat(song);
@@ -86,7 +89,7 @@ class NewRoute extends React.Component {
       const index = this.state.chosenSongs.findIndex(x => x.title === song.title);
       updatedChosenSongs = [ ...this.state.chosenSongs.slice(0, index), ...this.state.chosenSongs.slice(index + 1)];
     }
-    this.setState({ chosenSongs: updatedChosenSongs });
+    this.setState({ chosenSongs: updatedChosenSongs }, () => console.log(this.state));
   }
 
   handleSubmit = (e) => {
@@ -106,6 +109,14 @@ class NewRoute extends React.Component {
     this.setState({ [name]: value, errors });
   }
 
+  handleRange = (e) => {
+    if (e.target.name === 'start') this.setState({ start: e.target.value, disabled: false, years: [], chosenSongs: [] });
+    if (e.target.name === 'end') {
+      const years =  _.range(this.state.start, e.target.value, 1);
+      this.setYears(years);
+    }
+  }
+
   render(){
     return(
       <section>
@@ -116,18 +127,36 @@ class NewRoute extends React.Component {
           <button className="button" onClick={this.handleClick} type="radio" name="era" value="30s">30s</button>
           <button className="button" onClick={this.handleClick} type="radio" name="era" value="40s">40s</button>
         </div>
-
+        <div className="centered">
+          <p>or choose a range of years:</p>
+          <select className="select is-medium is-rounded" onChange={this.handleRange} name="start">
+            <option value="">Start ...</option>
+            {_.range(1950, this.state.currentYear, 1).map((year, i) =>
+              <option key={i} value={year}>{year}</option>
+            )}
+          </select>
+          <select onChange={this.handleRange} className="select is-medium is-rounded" name="end" disabled={this.state.disabled}>
+            <option value="">End ...</option>
+            {_.range(this.state.start, this.state.currentYear, 1).map((year, i) =>
+              <option key={i} value={year}>{year}</option>
+            )}
+          </select>
+        </div>
         <hr />
-        {this.state.years.length === 0 && <p>Select an era above to get some tunes!</p>}
+        {this.state.songs.length === 0 && <p className="centered">Choose an era above to get some songs!</p>}
         <form onSubmit={this.handleSubmit}>
           {this.state.songs.map((songs, i) =>
-            <div key={i}  className="gallery">
+            <div key={i}>
               <h2 className="subtitle">{this.state.years[i]}</h2>
-              <div className="overflow flexy">
+              <div className="overflow flexy no-column jukebox">
                 {songs.map((song, i) =>
-                  <div key={i} className="field song card">
-                    <input className="regular-checkbox" onChange={this.handleCheck} type="checkbox" name={song.artist} value={song.title}/>
-                    <p>{song.title} by {song.artist}</p>
+                  <div key={i} className="field wrapper">
+                    <div className="song">
+                      <input className="checkbox" onChange={() => this.handleCheck(song)} type="checkbox" />
+                      <p>{song.title}
+                        <br/>
+                      by {song.artist}</p>
+                    </div>
                   </div> )}
               </div>
             </div>
@@ -136,22 +165,30 @@ class NewRoute extends React.Component {
           <hr />
 
           <div className="field">
-            <label className="label" htmlFor="title">Name your playlist!</label>
-            <input onChange={this.handleChange} className="input" type="text" name="title" />
-            {this.state.errors.title && <small>{this.state.errors.title}</small>}
+            <label className="label" htmlFor="title">
+              <input onChange={this.handleChange} className="input wider" type="text" name="title" />
+              <div className="input-text">Name your playlist!</div>
+              {this.state.errors.title && <small>{this.state.errors.title}</small>}
+            </label>
           </div>
 
           <div className="field">
-            <label className="label" htmlFor="description">Description</label>
-            <textarea onChange={this.handleChange} className="textarea" name="description"></textarea>
+            <label className="label" htmlFor="description">
+              <textarea onChange={this.handleChange} className="textarea" name="description"></textarea>
+              <div className="input-text">Description</div>
+            </label>
           </div>
 
+
+
           <div className="field">
-            <label className="label" htmlFor="public">Make it private?</label>
+            <p className="label inline" htmlFor="public">Make it private?</p>
             <input onChange={this.handleChange} className="checkbox" type="checkbox" name="private" />
           </div>
 
           <button className="button btn-halo">Submit</button>
+
+
         </form>
       </section>
     );

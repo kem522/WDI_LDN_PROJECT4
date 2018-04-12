@@ -33,7 +33,7 @@ router.route('/playlists')
 
 router.route('/playlists/:id')
   .get(playlists.show)
-  .put(playlists.update)
+  .put(secureRoute, playlists.update)
   .delete(secureRoute, playlists.delete);
 
 router.route('/playlists/:id/followers')

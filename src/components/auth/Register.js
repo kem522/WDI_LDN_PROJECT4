@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Auth from '../../lib/Auth';
 import Form from '../users/Form';
+import GoogleLogin from './GoogleLogin';
 
 class Register extends React.Component {
 
@@ -32,7 +33,10 @@ class Register extends React.Component {
 
   render() {
     return (
-      <Form handleChange={this.handleChange} handleSubmit={this.handleSubmit} data={this.state}/>
+      <section>
+        <Form handleChange={this.handleChange} handleSubmit={this.handleSubmit} data={this.state}/>
+        <GoogleLogin />
+      </section>
     );
   }
 }

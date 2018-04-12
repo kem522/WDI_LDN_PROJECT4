@@ -1,18 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Nixie+One|Open+Sans');
 @import "./components/common/forms.scss";
 @import "./components/common/navbar.scss";
+@import "./components/pages/home.scss";
 @import "./components/pages/index.scss";
+@import "./components/pages/show.scss";
 @import "./components/pages/new.scss";
 @import "./components/variables/colors.scss";
-// Small tablets and large smartphones (landscape view)
-$screen-sm-min: 576px;
-// Small tablets (portrait view)
-$screen-md-min: 768px;
-// Tablets and small desktops
-$screen-lg-min: 992px;
-// Large tablets and desktops
-$screen-xl-min: 1200px;
-//Sitewide Styles
+@import "./components/variables/mediaQueries.scss";
+
+
 html, body {
   background-color: black;
   height: 100vh;
@@ -54,7 +50,7 @@ html, body {
 .flexy {
   display:flex;
   justify-content: space-around;
-  padding:20px;
+  padding:20px 0;
   &.column {
     flex-direction: column;
   }
@@ -71,20 +67,22 @@ hr {
   box-shadow: 0 0 10px 1px white;
 }
 
-//HomePage
-.hero {
-  .title {
-    font-size: 48px;
-  }
+.inline {
+  display: inline;
 }
 
-.title, .subtitle {
-  font-weight: bolder;
-  color:white;
+.centered {
+  text-align:center;
 }
 
+.ytRed {
+  color: $youtube-red;
+}
 @media only screen and (max-width:$screen-md-min){
   .flexy{
     flex-direction: column;
+  }
+  .no-column {
+    flex-direction: row;
   }
 }

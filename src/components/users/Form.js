@@ -38,7 +38,9 @@ const Form = ({handleSubmit, handleChange, data}) => {
           {data.errors.birthday && <small>{data.errors.birthday}</small>}
         </label>
       </div>
-      <button className="button">Submit</button>
+      <div className="buttons">
+        <button className="button">Submit</button>
+      </div>
     </form>
   );
 };

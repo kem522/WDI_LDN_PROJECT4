@@ -7,8 +7,8 @@
     color: white;
     &:hover {
       background-color: rgba(0,0,0,0);
-      color: $neon-yellow;
-      text-shadow: 0 0 10px $neon-yellow;
+      color: $neon-red;
+      text-shadow: $neon-text-shadow;
     }
   }
 }

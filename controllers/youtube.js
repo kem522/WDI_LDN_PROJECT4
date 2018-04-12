@@ -29,8 +29,6 @@ function videos(req,res,next){
 //
 
 function playlists(req,res,next){
-  console.log(req.body);
-  console.log('creating playlist');
   let currentVideoIndex = 0;
 
   function insertVideosRecursive(data, token) {
@@ -58,16 +56,6 @@ function playlists(req,res,next){
     .then(data => {
       res.json(data);
       return insertVideosRecursive(data, req.currentUser.token);
-      //
-      //
-      // const promises = req.body.videoIds.map(video => addVideo(video, data, req.currentUser.token));
-      // console.log(promises.length);
-      // Promise.all(promises)
-      //   .then(data => {
-      //     console.log(data);
-      //     res.json(data);
-      //   })
-      //
     })
     .catch(next);
 }

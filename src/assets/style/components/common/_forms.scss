@@ -14,13 +14,11 @@ form{
     cursor: pointer;
     background-color: transparent;
     border: 3px solid white;
-    padding: 6px 12px;
     font-size: 16px;
-    line-height: 5px;
+    line-height: normal;
+    height: auto;
     border-radius: 500px;
-    padding: 18px 48px;
     letter-spacing: 2px;
-    min-width: 160px;
     &:hover {
       background-color:white;
       border-color:white;
@@ -44,31 +42,38 @@ button.button.is-focused, button.button:focus {
   }
   select {
     border-color: $neon-red;
-    border-radius: 3px;
     box-shadow: 0 0 20px $neon-red;
     &:focus {
       border-color: $neon-red;
       box-shadow: 0 0 20px $neon-red;
+      outline:none;
     }
   }
+  &.is-rounded {
+    border-radius: 500px;
+  }
+}
+
+.buttons {
+  margin: 50px;
 }
 
 input {
   background-color: transparent;
-   border: 0;
-   border-bottom: 2px solid white;
-   color: white;
-   font-size: 36px;
-   letter-spacing: -1px;
-   outline: 0;
-   padding: 5px 20px;
-   text-align: center;
-   transition: all 0.3s;
-   width: 325px;
-   outline: none;
-   margin: 0 auto;
-   cursor: text;
-   &:focus {
+  border: 0;
+  border-bottom: 2px solid white;
+  color: white;
+  font-size: 36px;
+  letter-spacing: -1px;
+  outline: 0;
+  padding: 5px 20px;
+  text-align: center;
+  transition: all 0.3s;
+  width: 325px;
+  outline: none;
+  margin: 0 auto;
+  cursor: text;
+  &:focus {
       max-width: 100%;
       width: 400px;
     }
@@ -88,4 +93,19 @@ label {
     line-height: 20px;
     margin: 5px;
   }
+  &.label {
+    color:white;
+  }
+}
+
+
+p.inline {
+  color: white;
+  font-size: 20px;
+  line-height: 20px;
+  margin: 5px;
+  display: inline;
+  letter-spacing: 4px;
+  padding-top: 30px;
+  text-align: center;
 }

@@ -7,7 +7,8 @@ const playlistSchema = new mongoose.Schema({
   description: { type: String },
   chosenSongs: [{
     artist: { type: String },
-    title: { type: String }
+    title: { type: String },
+    year: { type: String }
   }],
   public: { type: Boolean, required: true, default: true },
   followers: [{ type: mongoose.Schema.ObjectId, ref: 'User' }]
