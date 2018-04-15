@@ -43,10 +43,9 @@ class IndexRoute extends React.Component {
                 <div className="card">
                   <div className="card-content">
                     <h3 className="title is-4">{playlist.title}</h3>
-                    <h4 className="subtitle">{playlist.owner.username}</h4>
-                    { playlist.followers.length === 1 && <h4 className="subtitle">{playlist.followers.length} follower</h4>}
-                    { playlist.followers.length > 1 && <h4 className="subtitle">{playlist.followers.length} followers</h4>}
-                    {playlist.chosenSongs.map((song, i) => <li key={i}>{song.year}</li>)}
+                    <h4>{playlist.owner.username}</h4>
+                    { playlist.followers.length === 1 && <h4>{playlist.followers.length} follower</h4>}
+                    { playlist.followers.length > 1 && <h4>{playlist.followers.length} followers</h4>}
                   </div>
                 </div>
               </Link>

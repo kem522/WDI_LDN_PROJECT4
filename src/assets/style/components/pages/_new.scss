@@ -31,6 +31,8 @@ a.button {
 
 .flexy.jukebox {
   justify-content: flex-start;
+  height:auto;
+  overflow-y: hidden;
   & > first-child{
     margin-left:0;
   }
@@ -38,6 +40,7 @@ a.button {
 
 .wrapper {
   perspective: 1000px;
+  margin: 50px 0;
 }
 
 .wrapper:hover .song {
@@ -46,22 +49,25 @@ a.button {
 }
 
 .song {
-  text-align: center;
   transition: .3s;
-  width: 10em;
-  height: 10em;
+  width: 12em;
   border-radius: 3px;
   padding: 5px;
-  margin: -20px;
+  margin: -30px;
+  border:none;
   transform: rotateY(40deg);
-  background-color:white;
-  border: 1px solid #363636;
-  box-shadow: -10px 0px 10px 1px #363636;
-  transition:
-      box-shadow 0.2s ease-out,
-      transform 0.2s ease-out;
-  input.regular-checkbox, p {
-    display: inline;
+  background-color:transparent;
+  background-image: url('../../assets/images/record_katie.png');
+  background-position:center;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  input.checkbox {
+    width: 20px;
+    display:inline !important;
+    margin: 0 auto;
   }
   &.large {
     height:auto;
@@ -74,7 +80,7 @@ a.button {
   display:inline;
   margin: .5em 0;
   font-weight: bold;
-  color: $neon-blue;
+  color:white;
 }
 
 .song input iframe {
@@ -82,4 +88,8 @@ a.button {
   height: auto;
   margin: 0 auto;
   -webkit-filter: sepia(75%);
+}
+
+.songTitle {
+  text-transform: uppercase;
 }

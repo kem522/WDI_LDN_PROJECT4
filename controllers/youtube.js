@@ -2,7 +2,7 @@ const rp = require('request-promise');
 const Promise = require('bluebird');
 
 function getSingleVideo(song){
-  const searchTerm = `${song.artist.replace(/\s+/g, '')}${song.title.replace(/\s+/g, '')}`;
+  const searchTerm = `${song.artist.split(', ')[0].replace(/\s+/g, '')}${song.title.replace(/\s+/g, '')}`;
   const endpoint = 'https://www.googleapis.com/youtube/v3/search';
   return rp({
     url: `${endpoint}`,

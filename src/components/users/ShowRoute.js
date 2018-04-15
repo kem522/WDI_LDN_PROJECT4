@@ -19,11 +19,45 @@ class Profile extends React.Component{
   render(){
     return(
       <section>
-        <h1>{this.state.user.username}</h1>
-        <Link className="button is-primary" to={`/users/${this.state.user._id}/edit`}>Edit</Link>
+        <h1 className="title neon">{this.state.user.username}</h1>
+        <Link className="button" id="smallBtn" to={`/users/${this.state.user._id}/edit`}>Edit</Link>
+        <h2 className="subtitle">Your Playlists <i className="fas fa-caret-down"></i></h2>
         <ul>
           {this.state.user.playlists.map((playlist, i) =>
-            <Link to={`/playlists/${playlist._id}`} key={i}>{playlist.title}</Link>
+            <div key={i} >
+              <Link className="subtitle" to={`/playlists/${playlist._id}`} >{playlist.title}</Link>
+              <ul className="overflow flexy no-column jukebox">
+                {playlist.chosenSongs.map((song, i) =>
+                  <li key={i} className="field wrapper">
+                    <div className="song">
+                      <p><span className="songTitle">{song.title}</span>
+                        <br/>
+                      by {song.artist}</p>
+                    </div>
+                  </li>
+                )}
+              </ul>
+            </div>
+          )}
+        </ul>
+        <hr />
+        <h2 className="subtitle">Followed Playlists <i className="fas fa-caret-down"></i></h2>
+        <ul>
+          {this.state.user.followedPlaylists.map((playlist, i) =>
+            <div key={i} >
+              <Link className="subtitle" to={`/playlists/${playlist._id}`} >{playlist.title}</Link>
+              <ul className="overflow flexy no-column jukebox">
+                {playlist.chosenSongs.map((song, i) =>
+                  <li key={i} className="field wrapper">
+                    <div className="song">
+                      <p>{song.title}
+                        <br/>
+                      by {song.artist}</p>
+                    </div>
+                  </li>
+                )}
+              </ul>
+            </div>
           )}
         </ul>
       </section>

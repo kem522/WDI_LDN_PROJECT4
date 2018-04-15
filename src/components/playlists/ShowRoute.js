@@ -11,7 +11,9 @@ class ShowRoute extends React.Component {
     playlist: null,
     videoIds: [],
     modalOpen: false,
-    currentVideo: ''
+    currentVideo: '',
+    youtubeSuccess: false,
+    followed: false
   };
 
   componentDidMount() {
@@ -19,11 +21,15 @@ class ShowRoute extends React.Component {
       .then(res => this.setState({ playlist: res.data }, () => {
         (Auth.getPayload().sub === this.state.playlist.owner._id) ? this.setState({ isOwner: true }) : this.setState({ isOwner: false });
 
+        if (this.state.playlist.followers.includes(Auth.getPayload().sub)) this.setState({ followed: true});
+
         axios.get('/api/youtube',  {
           params: { songs: this.state.playlist.chosenSongs }
         })
           .then(res => this.setState({ videoIds: res.data }));
       }));
+
+
   }
 
   handleDelete = () => {
@@ -46,49 +52,51 @@ class ShowRoute extends React.Component {
         title: this.state.playlist.title,
         description: this.state.playlist.description
       },
-      videoIds: this.state.videoIds
+      videoIds: this.state.videoIds.filter(video => video !== null)
     };
 
     axios.post('/api/youtubeplaylists', data, {
       headers: { Authorization: `Bearer ${Auth.getToken()}`}
     })
-      .then(res => console.log(res));
+      .then(res => {
+        if (res.status === 200) this.setState({ youtubeSuccess: true });
+      });
   }
 
 
   render() {
-    if (this.state.playlist) console.log(this.state.playlist.chosenSongs);
     return (
       this.state.playlist ? (
         <div className="container">
           {this.state.modalOpen && <div className="modal is-active">
             <div className="modal-background"></div>
             <div className="modal-content">
-              <Youtube width="640" height="360" id={this.state.currentVideo} />
+              { this.state.currentVideo !== null  && <Youtube width="640" height="360" id={this.state.currentVideo} />}
+              { this.state.currentVideo === null && <h2 className="subtitle">Sorry! We couldn't find a video for this throwback :(</h2>}
             </div>
             <button className="modal-close is-large" onClick={() => this.setState({ modalOpen: false })}>x</button>
           </div>
           }
           <h1 className="title"><u>{this.state.playlist.title}</u></h1>
           <h2 className="subtitle">{this.state.playlist.owner.username}</h2>
+          {this.state.isOwner && <Link className="button smallBtn" to={`/playlists/${this.state.playlist._id}/edit`}>Edit</Link> }
+          {' '}
+          {this.state.isOwner && <button className="button smallBtn" onClick={this.handleDelete}>Delete</button> }
           <p>{this.state.playlist.description}</p>
-          <button className="button largeBtn" onClick={this.handleYoutube}><span className="ytRed"><i className="fab fa-youtube"></i></span> Make this a <span className="ytRed">YouTube</span> Playlist!</button>
-          {!this.state.isOwner && <button onClick={this.handleClick} className="button">Follow</button>}
-
+          <p><small><i>Click on a song to see the video!</i></small></p>
           <ul className="overflow flexy no-column jukebox">
             {this.state.playlist.chosenSongs.map((song, i) =>
               <li key={i} className="wrapper">
                 <div onClick={() => this.setState({ modalOpen: true, currentVideo: this.state.videoIds[i]})} className="song large" id={this.state.videoIds[i]}>
-                  <p>{song.title} by {song.artist}</p>
-                  <Youtube width="100%" height="100%" onClick={() => this.setState({ modalOpen: true })} id={this.state.videoIds[i]} />
+                  <p><span className="songTitle">{song.title}</span> <br /> by  <br />{song.artist}</p>
                 </div>
               </li>
             )}
           </ul>
+          { !this.state.youtubeSuccess && Auth.isAuthenticated && <button className="button largeBtn" onClick={this.handleYoutube}><span className="ytRed"><i className="fab fa-youtube"></i></span> Make this a <span className="ytRed">YouTube</span> Playlist!</button>}
+          { this.state.youtubeSuccess && <button className="button largeBtn" onClick={this.handleYoutube}><span className="ytRed"><i className="fab fa-youtube"></i></span> You got it!</button>}
+          {!this.state.isOwner && Auth.isAuthenticated && !this.state.followed && <button onClick={this.handleClick} className="button">Follow</button>}
 
-          {this.state.isOwner && <Link className="button" to={`/playlists/${this.state.playlist._id}/edit`}>Edit</Link> }
-          {' '}
-          {this.state.isOwner && <button className="button" onClick={this.handleDelete}>Delete</button> }
         </div>
       ) : (
         <div className="container">

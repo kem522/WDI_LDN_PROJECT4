@@ -9,7 +9,7 @@ const Home = () => {
             Nostalgify
           </h1>
           <h2 className="subtitle">
-            Can't think of a better name right now.
+            Who says you have to dragged into the present?
           </h2>
           {/* <button className="button btn-halo">Click here to get started</button> */}
         </div>

@@ -78,6 +78,10 @@ hr {
 .ytRed {
   color: $youtube-red;
 }
+
+.flash-message {
+    background: transparent;
+}
 @media only screen and (max-width:$screen-md-min){
   .flexy{
     flex-direction: column;

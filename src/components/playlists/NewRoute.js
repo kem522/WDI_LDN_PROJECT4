@@ -157,7 +157,7 @@ class NewRoute extends React.Component {
                   <div key={i} className="field wrapper">
                     <div className="song">
                       <input className="checkbox" onChange={() => this.handleCheck(song)} type="checkbox" />
-                      <p>{song.title}
+                      <p><span className="songTitle">{song.title}</span>
                         <br/>
                       by {song.artist}</p>
                     </div>
