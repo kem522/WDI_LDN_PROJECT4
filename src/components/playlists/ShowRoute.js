@@ -29,6 +29,8 @@ class ShowRoute extends React.Component {
           .then(res => this.setState({ videoIds: res.data }));
       }));
 
+    axios.get(`/api/users/${Auth.getPayload().sub}`)
+      .then(res => res.googleId ? this.setState({ googleUser: true}) : this.setState({ googleUser: false}));
 
   }
 
@@ -72,7 +74,7 @@ class ShowRoute extends React.Component {
             <div className="modal-background"></div>
             <div className="modal-content">
               { this.state.currentVideo !== null  && <Youtube width="640" height="360" id={this.state.currentVideo} />}
-              { this.state.currentVideo === null && <h2 className="subtitle">Sorry! We couldn't find a video for this throwback :(</h2>}
+              { this.state.currentVideo === null && <h2 className="subtitle">Sorry! We couldn&apos;t find a video for this throwback :(</h2>}
             </div>
             <button className="modal-close is-large" onClick={() => this.setState({ modalOpen: false })}>x</button>
           </div>
@@ -93,7 +95,9 @@ class ShowRoute extends React.Component {
               </li>
             )}
           </ul>
-          { !this.state.youtubeSuccess && Auth.isAuthenticated && <button className="button largeBtn" onClick={this.handleYoutube}><span className="ytRed"><i className="fab fa-youtube"></i></span> Make this a <span className="ytRed">YouTube</span> Playlist!</button>}
+
+          { !this.state.googleUser && <p>Sign into Nostalgiafy with Google to create this playlist on your YouTube channel!</p>}
+          { this.state.googleUser && !this.state.youtubeSuccess && Auth.isAuthenticated && <button className="button largeBtn" onClick={this.handleYoutube}><span className="ytRed"><i className="fab fa-youtube"></i></span> Make this a <span className="ytRed">YouTube</span> Playlist!</button>}
           { this.state.youtubeSuccess && <button className="button largeBtn" onClick={this.handleYoutube}><span className="ytRed"><i className="fab fa-youtube"></i></span> You got it!</button>}
           {!this.state.isOwner && Auth.isAuthenticated && !this.state.followed && <button onClick={this.handleClick} className="button">Follow</button>}
 

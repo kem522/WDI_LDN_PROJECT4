@@ -6,7 +6,7 @@ const Home = () => {
       <div className="hero-body">
         <div className="container">
           <h1 className="title neon">
-            Nostalgify
+            Nostalgiafy
           </h1>
           <h2 className="subtitle">
             Who says you have to dragged into the present?
