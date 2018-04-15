@@ -30,7 +30,7 @@ class ShowRoute extends React.Component {
       }));
 
     axios.get(`/api/users/${Auth.getPayload().sub}`)
-      .then(res => res.googleId ? this.setState({ googleUser: true}) : this.setState({ googleUser: false}));
+      .then(res => res.data.googleId ? this.setState({ googleUser: true}) : this.setState({ googleUser: false}, () => console.log(this.state)));
 
   }
 

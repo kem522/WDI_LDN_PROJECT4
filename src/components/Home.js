@@ -11,7 +11,6 @@ const Home = () => {
           <h2 className="subtitle">
             Who says you have to dragged into the present?
           </h2>
-          {/* <button className="button btn-halo">Click here to get started</button> */}
         </div>
       </div>
     </section>
