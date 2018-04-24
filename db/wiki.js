@@ -8,13 +8,17 @@ mongoose.Promise = require('bluebird');
 const { dbURI } = require('../config/environment');
 const _ = require('lodash');
 
-const years = _.range(1950, 1951, 1);
+const years = _.range(1950, 1970, 1);
 
 
 function getSingleYear(year){
   const endpoint ='https://en.wikipedia.org/wiki';
+  let url = '';
+  if (year < 1956) url = 'Billboard_year-end_top_30';
+  else if (year < 1959) url = 'Billboard_year-end_top_50';
+  else url = 'Billboard_Year-End_Hot_100';
   return rp({
-    url: `${endpoint}/Billboard_Year-End_Hot_100_singles_of_${year}`,
+    url: `${endpoint}/${url}_singles_of_${year}`,
     method: 'GET'
   })
     .then(response => {
@@ -32,7 +36,8 @@ function getSingleYear(year){
         // map over the array of tds and creates objects of the contents of the a tags
         .map(td => {
           const title = td[0].match(/<a .*>/) ? td[0].match(/<a .*>(.*)<\/a>/)[1] : td[0].match(/<td>(.*)<\/td>/)[1];
-          const link = 'https://en.wikipedia.org' + td[0].match(/href="(.+?)"/)[1];
+          let link = '';
+          if (td[0].match(/href="(.+?)"/)) link = 'https://en.wikipedia.org' + td[0].match(/href="(.+?)"/)[1];
           const artist = td[1].match(/<a .*>/) ? (
             td[1]
               .replace(' and ', ', ')
@@ -66,23 +71,26 @@ function getSingleYear(year){
 
 
 function getArtwork(link){
-  return rp({
-    url: link,
-    method: 'GET'
-  })
-    .then(response => {
-      return response
-        .match(/<img .*>/g)
-        .filter(img => !img.includes('.svg.'))
-        .slice(0,1)
-        .join()
-        .match(/src\s*=\s*"(.+?)"/g)
-        .join()
-        .split('"')[1];
+  if (link) {
+    return rp({
+      url: link,
+      method: 'GET'
     })
-    .then(response => {
-      return `https:${response}`;
-    });
+      .then(response => {
+        return response
+          .match(/<img .*>/g)
+          .filter(img => !img.includes('.svg.'))
+          .slice(0,1)
+          .join()
+          .match(/src\s*=\s*"(.+?)"/g)
+          .join()
+          .split('"')[1];
+      })
+      .then(response => {
+        if (response === '//en.wikipedia.org/wiki/Special:CentralAutoLogin/start?type=1x1') return '../../assets/images/record_katie.png';
+        else return `https:${response}`;
+      });
+  } else return '../../assets/images/record_katie.png';
 }
 
 mongoose.connect(dbURI, (err, db) => {
