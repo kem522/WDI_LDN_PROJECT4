@@ -3,7 +3,7 @@
 const Track = require('../models/track');
 
 function showRoute(req,res,next){
-  const years = [2011, 2010];
+  const years = req.query.years;
   const promises = years.map(year =>  getTracks(year));
   Promise.all(promises)
     .then(data => {
@@ -16,7 +16,7 @@ function getTracks(year) {
   return new Promise((resolve) => {
     Track.find({ year: year })
       .then(res => {
-        return resolve({ [year]: res });
+        return resolve(res);
       });
   });
 }

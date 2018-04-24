@@ -6,7 +6,7 @@ import Flash from '../../lib/Flash';
 
 class NewRoute extends React.Component {
     state = {
-      songs: [],
+      returnedYears: [],
       chosenSongs: [],
       public: true,
       owner: Auth.getPayload().sub,
@@ -21,7 +21,9 @@ class NewRoute extends React.Component {
     axios.get('/api/wiki', {
       params: { years: this.state.years }
     })
-      .then(res => this.setState({ songs: res.data }));
+      .then(res => {
+        this.setState({ returnedYears: res.data }, () => console.log(this.state.returnedYears));
+      });
   }
 
   setYears = (years) => {
@@ -147,15 +149,16 @@ class NewRoute extends React.Component {
           </div>
         </div>
         <hr />
-        {this.state.songs.length === 0 && <p className="centered">Choose an era above to get some songs!</p>}
+        {this.state.returnedYears.length === 0 && <p className="centered">Choose an era above to get some songs!</p>}
         <form onSubmit={this.handleSubmit}>
-          {this.state.songs.map((songs, i) =>
+          {this.state.returnedYears.map((year, i) =>
+          // {this.state.songs.map((songs, i) =>
             <div key={i}>
               <h2 className="subtitle">{this.state.years[i]}</h2>
               <div className="overflow flexy no-column jukebox">
-                {songs.map((song, i) =>
+                {year.map((song, i) =>
                   <div key={i} className="field wrapper">
-                    <div className="song">
+                    <div className="song" style={{ backgroundImage: `url(${song.image})` }}>
                       <input className="checkbox" onChange={() => this.handleCheck(song)} type="checkbox" />
                       <p><span className="songTitle">{song.title}</span>
                         <br/>

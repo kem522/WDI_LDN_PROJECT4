@@ -8,7 +8,7 @@ mongoose.Promise = require('bluebird');
 const { dbURI } = require('../config/environment');
 const _ = require('lodash');
 
-const years = _.range(2010, 2013, 1);
+const years = _.range(1950, 1951, 1);
 
 
 function getSingleYear(year){
@@ -72,8 +72,12 @@ function getArtwork(link){
   })
     .then(response => {
       return response
-        .match(/<img .*>/g)[0]
-        .match(/src\s*=\s*"(.+?)"/g)[0]
+        .match(/<img .*>/g)
+        .filter(img => !img.includes('.svg.'))
+        .slice(0,1)
+        .join()
+        .match(/src\s*=\s*"(.+?)"/g)
+        .join()
         .split('"')[1];
     })
     .then(response => {
