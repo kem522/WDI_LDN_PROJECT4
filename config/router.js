@@ -8,7 +8,7 @@ const oauth = require('../controllers/oauth');
 const secureRoute = require('../lib/secureRoute');
 
 //API routes
-router.get('/wiki', wiki.articles);
+router.get('/wiki', wiki.show);
 router.get('/youtube', youtube.videos);
 router.post('/youtubeplaylists', secureRoute, youtube.playlists);
 
