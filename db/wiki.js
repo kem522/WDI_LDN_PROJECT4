@@ -8,7 +8,7 @@ mongoose.Promise = require('bluebird');
 const { dbURI } = require('../config/environment');
 const _ = require('lodash');
 
-const years = _.range(1950, 1970, 1);
+const years = _.range(1950, 1971, 1);
 
 
 function getSingleYear(year){
@@ -71,6 +71,7 @@ function getSingleYear(year){
 
 
 function getArtwork(link){
+  if (link.includes('index.php')) return '';
   if (link) {
     return rp({
       url: link,
@@ -87,11 +88,13 @@ function getArtwork(link){
           .split('"')[1];
       })
       .then(response => {
-        if (response === '//en.wikipedia.org/wiki/Special:CentralAutoLogin/start?type=1x1') return '../../assets/images/record_katie.png';
+        if (response === '//en.wikipedia.org/wiki/Special:CentralAutoLogin/start?type=1x1' || response === '') return '../../assets/images/record_katie.png';
         else return `https:${response}`;
       });
   } else return '../../assets/images/record_katie.png';
 }
+
+getArtwork('https://en.wikipedia.org/wiki/It%27s_a_Sin_to_Tell_a_Lie');
 
 mongoose.connect(dbURI, (err, db) => {
   db.dropDatabase();

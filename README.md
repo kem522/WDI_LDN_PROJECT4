@@ -5,57 +5,37 @@ Heroku Link: https://nostalgiafy.herokuapp.com/
 We were given one week to create MERN stack app.
 
 ## Conception
-The idea to do an app that allows a user to search for music based on an era in the user's life (such as their 20s or university). 
-After fleshing out some feature ideas to make sure the idea had enough scope to challenge us we set up our Trello board.
+The idea to do an app that allows a user to search for music based on an era in the user's life (such as their 20s or university) came to me quite quickly but I wasn't sure if it would be possible in the time frame.
 
-<img width="1268" alt="trello" src="https://user-images.githubusercontent.com/31917459/37826214-81616650-2e8a-11e8-8e4f-5c708a544dee.png">
+I started by researching the necessary APIs to get the data I would need. Figuring out a way to get the music data for each year proved the most difficult. Wikipedia seemed like a good source but it took some time to find annual pages about music that were formatted in the same manner. Then I had to decide which source to use to provide the music to the user. I decided on the YouTube API to populate iframes on the site for MVP with the option to extend the functionality to allow user's to create playlists straight on to their YouTube channel.
 
 ## Design Phase
+I wireframed my project briefly, spending most of my time on the new playlist page. To go with the nostalgia theme I wanted the lists of songs to feel like a jukebox and therefore I had a neon light effect on my page titles and menu links.
 
-We started out by drawing some simple wireframes for our RESTful routes for each resource. This also highlighted some feature ideas we had not previously thought about.
+<img width="600" alt="screen shot 2018-04-26 at 4 59 36 pm" src="https://user-images.githubusercontent.com/31917459/39317338-3e57913c-4973-11e8-9cbd-0ed7185b4cfc.png">
+<img width="600" alt="screen shot 2018-04-15 at 5 29 45 pm" src="https://user-images.githubusercontent.com/31917459/39317341-3fe4c5b0-4973-11e8-8a01-ae6f42ae2cdd.png">
 
-We added these wireframes to our Trello Board so that we would both have easy access to all of our planning materials. Below are some examples:
-
-<img style="width:200px; display:inline" src="https://user-images.githubusercontent.com/31917459/37826281-b2b45226-2e8a-11e8-8a4f-4de456c40a85.jpg">
-
-<img style="width:200px; display:inline" src="https://user-images.githubusercontent.com/31917459/37826283-b43fbf2c-2e8a-11e8-88c1-d57d46db55a5.jpg">
+Initially, I had to use a picture of a record for the background of the tracks as I could not find a way to fetch the album artwork for the songs but I am currently working on a solution to save the song data along with their album artwork (if it is retrievable from wikipedia) to my database.
 
 ## Build Process
-We were both very concerned with sharing the work fairly and as such initially each of us focused on one resource each (events and users) and split any non-resource specific files equally. We continued in this manner for the entirety of the backend and the basics of the front end views and routes.
+In my previous projects I had struggled in the first few days due to scope creep on my MVP so for this project I started with a clear idea of what that would look like. My MVP was simply the ability for user's to register with the site and create playlists using Wikipedia data and iframes populated using the YouTube API.
 
-Once the basic app was complete we were very open about which of the more novel and difficult functionality we would like to tackle. An example of one such feature is shown below:
+The majority of my time on this project was spent manipulating data retrieved from APIs. Without the data from Wikipedia the MVP would not be achievable so I didn't build out the front end nor the user resource until I had that working. Once this was done I added the YouTube API and finally built out the user resource and the rest of the frontend.
 
-```
-function calcVoteWinner() {
-  vm.voteWinner = [];
-  tallyVotes();
-  // find the id of the winner
-  const winnerId = Object.keys(vm.talliedVotes).reduce((a, b) => vm.talliedVotes[a] > vm.talliedVotes[b] ? a : b);
-  // get the winner object
-  vm.voteWinner = vm.event.restaurants.filter(restaurant => restaurant.id === winnerId);
-  Event.winnerCreate($state.params.id, vm.voteWinner[0])
-    .then(res => {
-      vm.event = res.data;
-      // get winner co-ordinates in the form of { 'lat': 123, 'lng': 123 }
-      vm.voteWinnerLocation.lat = vm.event.winner.coordinates.latitude;
-      vm.voteWinnerLocation.lng = vm.event.winner.coordinates.longitude;
-    })
-    .catch(err => console.error(err));
-}
-```
+Once I had reached MVP I added the ability to create YouTube playlists from the website and continued to work on the visual design.
 
-As you can see we frequently used comments in our code which means that neither of us was unsure of how the logic in each controller worked.
-
-We didn't start polishing the styling until the last two days. We began with layout and once this was consistent across all pages we moved onto color, font and other style choices.
-
-We asked our friends and colleagues to test our site and to provide feedback about usability, we also consulted a UX/UI designer to provide further insights. This information was really valuable and heavily informed our design process.
 
 ## Wins
-From the start of this project we both understood how important communication would be, particularly as we had not used the git collaborative process before. As a result we did not face any major merge issues which allowed us to maintain momentum throughout the week.
-
-Despite not having worked together in the past we very quickly and easily merged out working styles and thought processes. We also collaborated frequently on troubleshooting which not only helped us solve any problems we were having much faster than if we had worked in isolation but also meant that we had further opportunity to discuss and understand one another's code.
+I initially struggled with the amount of regex needed to parse the Wikipedia data for the song titles and artists. I received a lot of very helpful guidance from our instructor and have since managed to implement further functionality using similar regex by myself. It also taught me a lot about how to debug these kinds of functions in the terminal which allowed me to breakdown the problem into manageable parts on my own.
 
 ## Blockers
-For us, the biggest blocker was time. We were both very ambitious at the start of this project and frequently had to remind ourselves of what was possible in the given timeframe, for example, we had a number of fields in the models and forms in anticipation of future functionality that we later had to remove due to time constraints. We also had a number of cards in our Trello backlog board that we knew how to implement in theory but were aware we would likely not have time to achieve.
+Once I had the Google OAuth and YouTube API playlist creation working I realized that for larger playlists it was not adding all the songs to the YouTube playlists. The problem was that it could not handle all of the requests to add playlist items at once so it was only managing to create a few. I could not find a way around this so I spoke to my instructor who suggested I try recursive promises. Whilst this was difficult to implement it was very helpful as I had come across the idea of recursive functions in the past but had never fully understood them as I had not used them in practice before.
 
-In a similar vein, for the first few days we struggled to remain focused on MVP. We found ourselves in many discussions about features that were that were not necessary for our initial product. To overcome this, early in conversations we began asking one another if the discussed feature was truly a part of the MVP. By Monday we had a clear idea of what our MVP would be.
+## Going Forward
+This was my favorite project at General Assembly and there is a lot I would like to add to it. I am already in the process of retrieving the album artwork to save in the database long with the song data but I would also like to add the Spotify API so that user's have the option to create playlists there as well as on YouTube.
+
+## Instructions
+- Clone or download the repo
+- Install dependencies with `yarn install` or `npm install`
+- Start the local MongoDB server in Node.js with `mongod`
+- Launch the app with `yarn start:server` and `yarn start:client`
