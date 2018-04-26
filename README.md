@@ -17,6 +17,8 @@ I wireframed my project briefly, spending most of my time on the new playlist pa
 
 Initially, I had to use a picture of a record for the background of the tracks as I could not find a way to fetch the album artwork for the songs but I am currently working on a solution to save the song data along with their album artwork (if it is retrievable from wikipedia) to my database.
 
+<img width="600" alt="screen shot 2018-04-26 at 4 38 34 pm" src="https://user-images.githubusercontent.com/31917459/39317454-87386818-4973-11e8-878f-d8c598f58c78.png">
+
 ## Build Process
 In my previous projects I had struggled in the first few days due to scope creep on my MVP so for this project I started with a clear idea of what that would look like. My MVP was simply the ability for user's to register with the site and create playlists using Wikipedia data and iframes populated using the YouTube API.
 
@@ -33,6 +35,7 @@ Once I had the Google OAuth and YouTube API playlist creation working I realized
 
 ## Going Forward
 This was my favorite project at General Assembly and there is a lot I would like to add to it. I am already in the process of retrieving the album artwork to save in the database long with the song data but I would also like to add the Spotify API so that user's have the option to create playlists there as well as on YouTube.
+
 
 ## Instructions
 - Clone or download the repo
