@@ -194,8 +194,6 @@ class NewRoute extends React.Component {
           </div>
 
           <button className="button btn-halo">Submit</button>
-
-
         </form>
       </section>
     );
