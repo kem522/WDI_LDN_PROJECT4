@@ -31,14 +31,24 @@ import './assets/style/styles.scss';
 class App extends React.Component {
 
   componentDidMount(){
+    console.log(window.location);
     if(!window.location.search) return false;
     const data = queryString.parse(window.location.search);
     data.redirectUri = window.location.origin + '/';
-    axios.post('/api/google', data)
-      .then(res => {
-        Auth.setToken(res.data.token);
-        window.location.replace(window.location.origin);
-      });
+    console.log(data);
+    if(window.location.search.includes('state')) {
+      axios.post('/api/spotify', data)
+        .then(res => {
+          Auth.setToken(res.data.token);
+          window.location.replace(window.location.origin);
+        });
+    } else {
+      axios.post('/api/google', data)
+        .then(res => {
+          Auth.setToken(res.data.token);
+          window.location.replace(window.location.origin);
+        });
+    }
   }
 
   render() {

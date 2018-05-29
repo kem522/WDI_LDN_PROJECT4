@@ -52,6 +52,58 @@ function google(req,res,next){
     .catch(next);
 }
 
+function spotify(req,res,next){
+  rp({
+    method: 'POST',
+    url: 'https://accounts.spotify.com/api/token',
+    form: {
+      grant_type: 'authorization_code',
+      code: req.body.code,
+      redirect_uri: req.body.redirectUri,
+      client_id: process.env.SPOTIFY_CLIENT_ID,
+      client_secret: process.env.SPOTIFY_CLIENT_SECRET
+    },
+    json: true
+  })
+    .then(response => {
+      accessToken = response.access_token;
+      return rp({
+        method: 'GET',
+        url: 'https://api.spotify.com/v1/me',
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        },
+        json: true
+      });
+    })
+    .then(profile => {
+      return User
+        .findOne({ $or: [{ email: profile.email }, { spotifyId: profile.id }] })
+        .then(user => {
+          console.log(user);
+          if(!user) {
+            user = new User({ username: profile.display_name ? profile.display_name : profile.id });
+          }
+
+          user.email = profile.email;
+          user.spotifyId = profile.id;
+          user.token = accessToken;
+          return user.save();
+        });
+    })
+    // .then(user => {
+    //   console.log(user);
+    //   // const token = jwt.sign({ sub: user._id }, secret, { expiresIn: '6h'});
+    //   // res.json({
+    //   //   message: `Welcome back ${user.username}`,
+    //   //   token,
+    //   //   user
+    //   // });
+    // })
+    .catch(next);
+}
+
 module.exports = {
-  google
+  google,
+  spotify
 };

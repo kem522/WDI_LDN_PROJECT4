@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   birthday: [ { type: String } ],
   password: { type: String },
   googleId: { type: String },
+  spotifyId: { type: String },
   image: { type: String },
   token: { type: String }
 });

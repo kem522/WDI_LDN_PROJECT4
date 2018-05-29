@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Auth from '../../lib/Auth';
 import GoogleLogin from './GoogleLogin';
+import SpotifyLogin from './SpotifyLogin';
 import Flash from '../../lib/Flash';
 
 class Login extends React.Component{
@@ -54,6 +55,7 @@ class Login extends React.Component{
         <div className="buttons">
           <button className="button">Submit</button>
           <GoogleLogin />
+          <SpotifyLogin />
         </div>
       </form>
     );

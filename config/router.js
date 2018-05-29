@@ -16,6 +16,7 @@ router.post('/youtubeplaylists', secureRoute, youtube.playlists);
 router.post('/register', auth.register);
 router.post('/login', auth.login);
 router.post('/google', oauth.google);
+router.post('/spotify', oauth.spotify);
 
 //Users routes
 router.route('/users')
