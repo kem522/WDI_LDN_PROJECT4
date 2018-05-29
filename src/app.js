@@ -31,11 +31,9 @@ import './assets/style/styles.scss';
 class App extends React.Component {
 
   componentDidMount(){
-    console.log(window.location);
     if(!window.location.search) return false;
     const data = queryString.parse(window.location.search);
     data.redirectUri = window.location.origin + '/';
-    console.log(data);
     if(window.location.search.includes('state')) {
       axios.post('/api/spotify', data)
         .then(res => {

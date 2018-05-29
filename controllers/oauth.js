@@ -80,7 +80,6 @@ function spotify(req,res,next){
       return User
         .findOne({ $or: [{ email: profile.email }, { spotifyId: profile.id }] })
         .then(user => {
-          console.log(user);
           if(!user) {
             user = new User({ username: profile.display_name ? profile.display_name : profile.id });
           }
@@ -91,15 +90,14 @@ function spotify(req,res,next){
           return user.save();
         });
     })
-    // .then(user => {
-    //   console.log(user);
-    //   // const token = jwt.sign({ sub: user._id }, secret, { expiresIn: '6h'});
-    //   // res.json({
-    //   //   message: `Welcome back ${user.username}`,
-    //   //   token,
-    //   //   user
-    //   // });
-    // })
+    .then(user => {
+      const token = jwt.sign({ sub: user._id }, secret, { expiresIn: '6h'});
+      res.json({
+        message: `Welcome back ${user.username}`,
+        token,
+        user
+      });
+    })
     .catch(next);
 }
 

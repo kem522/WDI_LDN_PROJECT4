@@ -33,7 +33,7 @@ userSchema
   });
 
 userSchema.pre('validate', function checkPasswords(next) {
-  if(!this.password && !this.googleId){
+  if(!this.password && !this.googleId && !this.spotifyId){
     this.invalidate('password', 'password is required');
   }
   if(this.isModified('password') && this._passwordConfirmation !== this.password) {
