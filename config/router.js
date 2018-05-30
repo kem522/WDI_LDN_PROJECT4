@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const wiki = require('../controllers/wikipedia');
 const youtube = require('../controllers/youtube');
+const spotify = require('../controllers/spotify');
 const auth = require('../controllers/auth');
 const users = require('../controllers/users');
 const playlists = require('../controllers/playlists');
@@ -11,6 +12,7 @@ const secureRoute = require('../lib/secureRoute');
 router.get('/wiki', wiki.show);
 router.get('/youtube', youtube.videos);
 router.post('/youtubeplaylists', secureRoute, youtube.playlists);
+router.post('/spotifyplaylists', secureRoute, spotify.playlists);
 
 //Auth routes
 router.post('/register', auth.register);

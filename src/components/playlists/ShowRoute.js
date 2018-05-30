@@ -30,7 +30,12 @@ class ShowRoute extends React.Component {
       }));
 
     axios.get(`/api/users/${Auth.getPayload().sub}`)
-      .then(res => res.data.googleId ? this.setState({ googleUser: true}) : this.setState({ googleUser: false}, () => console.log(this.state)));
+      .then(res => {
+        this.setState({
+          googleUser: res.data.googleId,
+          spotifyUser: res.data.spotifyId
+        });
+      });
 
   }
 
@@ -63,6 +68,21 @@ class ShowRoute extends React.Component {
       .then(res => {
         if (res.status === 200) this.setState({ youtubeSuccess: true });
       });
+  }
+
+  handleSpotify = () => {
+    const data = {
+      playlist: {
+        name: this.state.playlist.title,
+        description: this.state.playlist.description
+      }
+    };
+
+    axios.post('/api/spotifyplaylists', data, {
+      headers: { 'Authorization': `Bearer ${Auth.getToken()}`}
+    })
+      .then(res => console.log(res));
+
   }
 
 
@@ -99,6 +119,7 @@ class ShowRoute extends React.Component {
           { !this.state.googleUser && <p>Sign into Nostalgiafy with Google to create this playlist on your YouTube channel!</p>}
           { this.state.googleUser && !this.state.youtubeSuccess && Auth.isAuthenticated && <button className="button largeBtn" onClick={this.handleYoutube}><span className="ytRed"><i className="fab fa-youtube"></i></span> Make this a <span className="ytRed">YouTube</span> Playlist!</button>}
           { this.state.youtubeSuccess && <button className="button largeBtn" onClick={this.handleYoutube}><span className="ytRed"><i className="fab fa-youtube"></i></span> You got it!</button>}
+          { this.state.spotifyUser && Auth.isAuthenticated && <button className="button largeBtn" onClick={this.handleSpotify}>Make this a Spotify Playlist!</button>}
           {!this.state.isOwner && Auth.isAuthenticated && !this.state.followed && <button onClick={this.handleClick} className="button">Follow</button>}
 
         </div>

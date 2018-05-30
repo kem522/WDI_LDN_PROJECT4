@@ -22,7 +22,7 @@ class NewRoute extends React.Component {
       params: { years: this.state.years }
     })
       .then(res => {
-        this.setState({ returnedYears: res.data }, () => console.log(this.state.returnedYears));
+        this.setState({ returnedYears: res.data });
       });
   }
 
@@ -91,7 +91,7 @@ class NewRoute extends React.Component {
       const index = this.state.chosenSongs.findIndex(x => x.title === song.title);
       updatedChosenSongs = [ ...this.state.chosenSongs.slice(0, index), ...this.state.chosenSongs.slice(index + 1)];
     }
-    this.setState({ chosenSongs: updatedChosenSongs }, () => console.log(this.state));
+    this.setState({ chosenSongs: updatedChosenSongs });
   }
 
   handleSubmit = (e) => {
